@@ -1,4 +1,7 @@
 # export_html.py
+
+print("🚀 Ejecutando export_html.py")
+
 import sqlite3, os
 from datetime import datetime
 
@@ -48,5 +51,7 @@ def generar_fichas_html():
         with open(os.path.join(output_folder, f"{serial}.html"), "w", encoding="utf-8") as f:
             f.write(html)
 
-            print(f"✅ Ficha generada: {serial}.html")
+if __name__ == "__main__":
+    generar_fichas_html()
+    print("✅ Fichas HTML generadas")
 
