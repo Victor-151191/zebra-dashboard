@@ -10,7 +10,7 @@ output_folder = "qr_codes"
 os.makedirs(output_folder, exist_ok=True)
 
 # Tu URL base de GitHub Pages (ajusta con tu usuario y repo)
-base_url = "https://tuusuario.github.io/zebra-dashboard"
+base_url = "https://victor-151191.github.io/zebra-dashboard/"
 
 # Conexión a la base de datos
 conn = sqlite3.connect(db_path)
