@@ -48,4 +48,8 @@ def generar_fichas_html():
         with open(os.path.join(output_folder, f"{serial}.html"), "w", encoding="utf-8") as f:
             f.write(html)
 
-        print(f"✅ Ficha generada: {serial}.html")
+            print(f"✅ Ficha generada: {serial}.html")
+
+    if __name__ == "__main__":
+        generar_ficha_html()
+
