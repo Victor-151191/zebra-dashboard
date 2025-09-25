@@ -1,0 +1,11 @@
+CREATE TABLE inventario_zebra (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  part_number TEXT,
+  serial_number TEXT UNIQUE,
+  location TEXT,
+  connection TEXT,
+  dbm TEXT,
+  ip TEXT,
+  fecha_inicio TEXT,
+  fecha_mantenimiento TEXT
+);

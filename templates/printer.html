@@ -1,0 +1,21 @@
+<!-- templates/printer.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Auditoría de Impresora</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="card">
+<h2>Impresora: {{ data[1] }}</h2>
+<p><strong>Serial:</strong> {{ dat[2] }}</p>
+<p><strong>Ubicación:</strong> {{ dat[3] }}</p>
+<p><strong>Conexión:</strong> {{ dat[4] }}</p>
+<p><strong>Señal:</strong> {{ dat[5] }} dBm</p>
+<p><strong>IP:</strong> {{ data[6] }}<p>
+<p><strong>Inicio:</strong> {{ dat[7] }}</p>
+<p><strong>Mantenimiento:</strong> {{data[8] }}</p>
+</div>
+</body>
+</html>
