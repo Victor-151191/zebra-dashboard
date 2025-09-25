@@ -28,8 +28,20 @@ for row in rows:
         continue
 
     url = f"{base_url}/{serial}.html"
-    qr = qrcode.make(url)
-    qr_path = os.path.join(output_folder, f"{serial}.png")
-    qr.save(qr_path)
-    print(f"✅ QR generado para {serial} → {url}")
 
+    # 🔵 Personalización del color del QR
+    qr = qrcode.QRCode(
+        version=1,
+        box_size=10,
+        border=4
+    )
+    qr.add_data(url)
+    qr.make(fit=True)
+
+    # Cambia el color aquí 👇
+    img = qr.make_image(fill_color="darkblue", back_color="white")
+
+    qr_path = os.path.join(output_folder, f"{serial}.png")
+    img.save(qr_path)
+
+    print(f"✅ QR generado para {serial} → {url}")
