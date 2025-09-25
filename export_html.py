@@ -3,7 +3,7 @@ import sqlite3, os
 from datetime import datetime
 
 def generar_fichas_html():
-    db_path = "Inventario_zebra.db"
+    db_path = 'Inventario de impresora jabil.db'
     output_folder = "docs"
     os.makedirs(output_folder, exist_ok=True)
 
