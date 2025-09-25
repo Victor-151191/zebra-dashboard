@@ -50,6 +50,3 @@ def generar_fichas_html():
 
             print(f"✅ Ficha generada: {serial}.html")
 
-    if __name__ == "__main__":
-        generar_ficha_html()
-
