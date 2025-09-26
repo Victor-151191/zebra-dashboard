@@ -1,6 +1,6 @@
 # export_html.py
 
-print("🚀 Ejecutando export_html.py")
+print("Ejecutando export_html.py")
 
 import sqlite3, os
 from datetime import datetime
@@ -42,7 +42,7 @@ def generar_fichas_html():
         serial = data.get("Serial Number")
 
         if serial is None or str(serial).strip().upper() == "NULL":
-            print("⏭️ Fila ignorada por serial vacío:", data)
+            print("Fila ignorada por serial vacío:", data)
             continue
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
@@ -54,5 +54,5 @@ def generar_fichas_html():
 
 if __name__ == "__main__":
     generar_fichas_html()
-    print("✅ Fichas HTML generadas")
+    print("Fichas HTML generadas")
 

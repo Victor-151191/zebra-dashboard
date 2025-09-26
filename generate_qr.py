@@ -39,7 +39,7 @@ for row in rows:
     qr.make(fit=True)
 
     # Cambia el color aquí 
-    img = qr.make_image(fill_color="purple", back_color="white")
+    img = qr.make_image(fill_color="black", back_color="white")
 
     qr_path = os.path.join(output_folder, f"{serial}.png")
     img.save(qr_path)
