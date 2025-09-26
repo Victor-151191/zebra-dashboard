@@ -23,6 +23,7 @@ def generar_fichas_html():
         <meta charset="UTF-8">
         <title>Ficha Técnica - {serial}</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="qualtec.jpeg" type="image/jpeg">
     </head>
     <body>
         <div class="card">
