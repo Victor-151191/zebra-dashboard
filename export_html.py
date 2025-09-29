@@ -53,7 +53,7 @@ def generar_fichas_html():
 <footer class="footer">
 <p>
     © 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
-    <a href="https://qualtecmonterrey.com" target="_blank" style="color: #eee; text-decoration: underline;">
+    <a href="https://qualtec.odoo.com/" target="_blank" style="color: #eee; text-decoration: underline;">
     Qualtec Monterrey
     </a>
 </p>
