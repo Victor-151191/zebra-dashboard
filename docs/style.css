@@ -1,26 +1,30 @@
 body {
     font-family: Arial, sans-serif;
     background: #010101;
-    padding: 40px;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding-top: 10px; /* Desplaza hacia abajo */
-
+    height: 100vh; /* Cambia de min-height a height */
+    overflow: hidden; /* Elimina scroll */
 }
 .card {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco con 30% opacidad */
+backdrop-filter: blur(1px);               /* Nivel de desenfoque aumentado */
+-webkit-backdrop-filter: blur(1px);       /* Compatibilidad con Safari */
+padding: 30px;
+border-radius: 10px;
+width: 450px;
+max-width: 100%;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);    /* Sombra suave para profundidad */
+color: #111; /* Texto más oscuro para contraste */
 }
+
 h2 {
     text-align: center;
-    color: #333;
+    color: #0f0e0e;/*tenia #333*/
 }
 table {
     width: 100%;
@@ -33,15 +37,36 @@ td {
 }
 td.label {
     font-weight: bold;
-    color: #555;
+    color: #131313; /*tenia #555*/
     width: 40%;
 }
 
 #video-fondo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
+position: fixed;
+top: 0;
+left: 0;
+/*transform: translate(-50%, -50%) scale(1.0); /* Reduce el zoom */
+width: 100vw;       /* Usa el ancho completo de la ventana */
+height: 100vh;       /* Usa el alto completo de la ventana */
+object-fit:inherit;   /* Ajusta sin distorsionar */
+z-index: -1;
+}
+
+img {
+    width: 500px;      /* Ajusta el tamaño según lo que necesites */
+    height: auto;
+    display: block;
+    margin: 20px auto; /* Centrado con espacio */
+
+}
+
+.footer {
+text-align: center;
+padding: 15px 0;
+font-size: 14px;
+color: #eee;
+background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente oscuro */
+margin-top: 30px;
+border-top: 1px solid #444;
+width: 100%;
 }

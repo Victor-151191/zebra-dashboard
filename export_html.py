@@ -4,6 +4,18 @@ print("Ejecutando export_html.py")
 
 import sqlite3, os
 from datetime import datetime
+import shutil
+shutil.copy("C:\\qr_dashboard\\docs\\qualtec.ico", "docs/favicon.ico")
+import shutil, os
+
+favicon_origen = r"C:\qr_dashboard\docs\qualtec.ico"
+favicon_destino = "docs/favicon.ico"
+
+if os.path.exists(favicon_origen):
+    shutil.copy(favicon_origen, favicon_destino)
+    print("✅ Favicon copiado correctamente")
+else:
+    print(f"⚠️ El archivo favicon no fue encontrado: {favicon_origen}")
 
 def generar_fichas_html():
     db_path = r'C:\Program Files\DB Browser for SQLite\Inventario de impresora jabil.db'
@@ -20,13 +32,13 @@ def generar_fichas_html():
     template = """<!DOCTYPE html>
     <html lang="es">
     <head>
+    <link rel="icon" href="qualtec.ico" type="image/x-icon">
         <meta charset="UTF-8">
-        <img src="jabil.png" alt="image/png">
         <title>Ficha Técnica - {serial}</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="qualtec.ico" type="image/ico">
     </head>
     <body>
+    <img src="jabil.png" alt="image/png">
 <video autoplay muted loop id="video-fondo">
 <source src="video.mp4" type="video/mp4">
 </video>
@@ -37,6 +49,15 @@ def generar_fichas_html():
             </table>
             <p class="actualizado">Última actualización: {fecha}</p>
         </div>
+
+<footer class="footer">
+<p>
+    © 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
+    <a href="https://qualtecmonterrey.com" target="_blank" style="color: #eee; text-decoration: underline;">
+    Qualtec Monterrey
+    </a>
+</p>
+</footer>
     </body>
     </html>
     """
