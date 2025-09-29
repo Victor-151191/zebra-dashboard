@@ -21,6 +21,7 @@ def generar_fichas_html():
     <html lang="es">
     <head>
         <meta charset="UTF-8">
+        <img src="jabil.png" alt="image/png">
         <title>Ficha Técnica - {serial}</title>
         <link rel="stylesheet" href="style.css">
         <link rel="icon" href="qualtec.ico" type="image/ico">

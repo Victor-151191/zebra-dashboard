@@ -1,15 +1,22 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #010101;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 10px; /* Desplaza hacia abajo */
+
 }
 .card {
     background: white;
     padding: 30px;
     border-radius: 10px;
     max-width: 600px;
-    margin-bottom: 20;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h2 {
     text-align: center;
