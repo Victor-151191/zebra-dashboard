@@ -23,11 +23,11 @@ def generar_fichas_html():
         <meta charset="UTF-8">
         <title>Ficha Técnica - {serial}</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="qualtec.ico" type="image/ico">
+        <link rel="icon" href="C:\qr_dashboard\qualtec.ico" type="image/ico">
     </head>
     <body>
 <video autoplay muted loop id="video-fondo">
-<source src="video.mp4" type="video/mp4">
+<source src="C:\qr_dashboard\video.mp4" type="video/mp4">
 </video>
         <div class="card">
             <h2>Ficha Técnica Zebra</h2>
