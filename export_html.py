@@ -2,6 +2,10 @@
 import sqlite3, os, sys
 from datetime import datetime
 
+#Forza la decodificacion UTF-8
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 # Ruta del archivo de base de datos SQLite
 DB_PATH = "Inventario de impresora zebra.db"
 
