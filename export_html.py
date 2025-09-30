@@ -75,7 +75,7 @@ def generar_fichas_html():
         serial = data.get("Serial Number")
 
         if not serial or str(serial).strip().upper() == "NULL":
-            log(f"⏭️ Fila ignorada por serial vacío: {data}")
+            log(f"Fila ignorada por serial vacío: {data}")
             continue
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
@@ -84,9 +84,9 @@ def generar_fichas_html():
 
         with open(os.path.join(OUTPUT_FOLDER, f"{serial}.html"), "w", encoding="utf-8") as f:
             f.write(html)
-        log(f"✅ Ficha generada: {serial}.html")
+        log(f"Ficha generada: {serial}.html")
         total += 1
 
-    log(f"📦 Total de fichas generadas: {total}")
+    log(f"Total de fichas generadas: {total}")
 
 

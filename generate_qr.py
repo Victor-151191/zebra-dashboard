@@ -15,7 +15,7 @@ conn.close()
 for row in rows:
     serial = row[0]
     if not serial or str(serial).strip().upper() == "NULL":
-        print("⏭️ Serial vacío, QR no generado:", row)
+        print("Serial vacío, QR no generado:", row)
         continue
 
     url = f"{base_url}/{serial}.html"
@@ -26,7 +26,7 @@ for row in rows:
 
     img = qr.make_image(fill_color="darkblue", back_color="white")
     img.save(os.path.join(output_folder, f"{serial}.png"))
-    print(f"✅ QR generado para {serial} → {url}")
+    print(f"QR generado para {serial} → {url}")
 
     # Personalización del color del QR
     qr = qrcode.QRCode(
