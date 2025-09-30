@@ -7,11 +7,18 @@ TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "export_log.txt"
 
+#def log(mensaje):
+    #fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
+    #with open(LOG_FILE, "a", encoding="utf-8") as f:
+        #f.write(f"[{fecha}] {mensaje}\n")
+    #print(mensaje)
+
 def log(mensaje):
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
-    with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(f"[{fecha}] {mensaje}\n")
-    print(mensaje)
+    mensaje_final = f"[{fecha}] {mensaje}"
+    with open("export_log.txt", "a", encoding="utf-8") as f:
+        f.write(mensaje_final + "\n")
+    print(log(f"📦 Total de fichas generadas: {total}"))  # ← Esto muestra en consola
 
 def validar_base():
     if not os.path.exists(DB_PATH):

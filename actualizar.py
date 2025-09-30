@@ -50,9 +50,9 @@ def publicar_git():
         subprocess.run(["git", "commit", "-m", mensaje], cwd=repo_path)
         subprocess.run(["git", "push"], cwd=repo_path)
 
-        print("🚀 Cambios publicados en GitHub Pages.")
+        print("Cambios publicados en GitHub Pages.")
     else:
-        print("📦 No hay cambios nuevos para subir.")
+        print("No hay cambios nuevos para subir.")
 
 # Punto de entrada principal del script
 if __name__ == "__main__":
@@ -71,4 +71,4 @@ if __name__ == "__main__":
 
     # Captura errores generales si algún script falla
     except subprocess.CalledProcessError as e:
-        print(f"💥 Falló el script: {e}")
+        print(f"Falló el script: {e}")
