@@ -26,7 +26,6 @@ for row in rows:
 
     img = qr.make_image(fill_color="darkblue", back_color="white")
     img.save(os.path.join(output_folder, f"{serial}.png"))
-    print(f"QR generado para {serial} → {url}")
 
     # Personalización del color del QR
     qr = qrcode.QRCode(
