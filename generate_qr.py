@@ -27,3 +27,20 @@ for row in rows:
     img = qr.make_image(fill_color="darkblue", back_color="white")
     img.save(os.path.join(output_folder, f"{serial}.png"))
     print(f"✅ QR generado para {serial} → {url}")
+
+    # Personalización del color del QR
+    qr = qrcode.QRCode(
+        version=1,
+        box_size=20,
+        border=6
+    )
+    qr.add_data(url)
+    qr.make(fit=True)
+
+    # Cambia el color aquí 
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    qr_path = os.path.join(output_folder, f"{serial}.png")
+    img.save(qr_path)
+
+    print(f"QR generado para {serial} → {url}")

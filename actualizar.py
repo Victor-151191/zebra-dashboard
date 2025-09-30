@@ -1,6 +1,8 @@
 import subprocess, os
 from datetime import datetime
 
+
+
 def ejecutar(script):
     print(f"🚀 Ejecutando {script}...")
     result = subprocess.run(["python", script], capture_output=True, text=True)
