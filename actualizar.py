@@ -1,22 +1,29 @@
-import subprocess
+import subprocess, os
 from datetime import datetime
 
-# Ejecutar script que genera fichas HTML
-subprocess.run(["python", "export_html.py"], check=True)
+def ejecutar(script):
+    print(f"🚀 Ejecutando {script}...")
+    result = subprocess.run(["python", script], capture_output=True, text=True)
+    print(result.stdout)
+    if result.stderr:
+        print(f"❌ Error en {script}:\n{result.stderr}")
+    result.check_returncode()
 
-#  Ejecutar script que genera códigos QR
-subprocess.run(["python", "generate_qr.py"], check=True)
+try:
+    ejecutar("export_html.py")
+    ejecutar("generate_qr.py")
 
-#  Verificar si hay cambios
-result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+    result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+    if result.stdout.strip():
+        repo_path = os.path.abspath(os.path.dirname(__file__))
+        subprocess.run(["git", "add", "."], cwd=repo_path)
+        fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
+        mensaje = f"🕓 Actualización automática ({fecha})"
+        subprocess.run(["git", "commit", "-m", mensaje], cwd=repo_path)
+        subprocess.run(["git", "push"], cwd=repo_path)
+        print("✅ Cambios publicados en GitHub Pages.")
+    else:
+        print("🟡 No hay cambios nuevos para subir.")
 
-if result.stdout.strip():
-    # Subir cambios a GitHub
-    subprocess.run(["git", "add", "."], cwd=".")
-    fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
-    mensaje = f"Actualización automática ({fecha})"
-    subprocess.run(["git", "commit", "-m", mensaje], cwd=".")
-    subprocess.run(["git", "push"], cwd=".")
-    print(" Cambios publicados en GitHub Pages.")
-else:
-    print(" No hay cambios nuevos para subir.")
+except subprocess.CalledProcessError as e:
+    print(f"💥 Falló el script: {e}")
