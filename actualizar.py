@@ -6,21 +6,24 @@ def ejecutar(script):
     print(f"\n🚀 Ejecutando {script}...")
 
     # Ejecuta el script y captura su salida estándar y errores
-    result = subprocess.run(["python", script], capture_output=True, text=True)
+    #result = subprocess.run(["python", script], capture_output=True, text=True)
+
+    #imprime en tiempo real sin pasar por result.stdoult
+    subprocess.run(["python", script])
 
     # Muestra la salida normal del script (print)
-    if result.stdout:
-        print(result.stdout)
+    #if result.stdout:
+        #print(result.stdout)
 
     # Muestra errores si ocurrieron
-    if result.stderr:
-        print(f"❌ Error en {script}:\n{result.stderr}")
+    #if result.stderr:
+        #print(f"❌ Error en {script}:\n{result.stderr}")
 
     # Lanza excepción si el script terminó con error (exit code ≠ 0)
-    try:
-        result.check_returncode()
-    except subprocess.CalledProcessError:
-        print(f"⚠️ El script {script} terminó con errores.\n")
+    #try:
+        #result.check_returncode()
+    #except subprocess.CalledProcessError:
+        #print(f"⚠️ El script {script} terminó con errores.\n")
 
 # Función que imprime un resumen final en consola
 def resumen_final():
