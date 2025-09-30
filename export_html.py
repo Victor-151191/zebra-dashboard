@@ -18,7 +18,7 @@ def log(mensaje):
     mensaje_final = f"[{fecha}] {mensaje}"
     with open("export_log.txt", "a", encoding="utf-8") as f:
         f.write(mensaje_final + "\n")
-    print(log(f"📦 Total de fichas generadas: {total}"))  # ← Esto muestra en consola
+    print(mensaje_final)  # ← Esto muestra en consola
 
 def validar_base():
     if not os.path.exists(DB_PATH):
