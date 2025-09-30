@@ -87,6 +87,6 @@ def generar_fichas_html():
         log(f"Ficha generada: {serial}.html")
         total += 1
 
-    log(f"Total de fichas generadas: {total}")
-
+    log(f" Total de fichas generadas: {total}")
+    print(f" Total de fichas generadas: {total}")  # ← Esto sí se muestra en consola
 
