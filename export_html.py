@@ -50,10 +50,10 @@ def generar_fichas_html():
     conn.close()
     log(f"Registros encontrados: {len(rows)}")
 
-    # Bloque de protección por contraseña (corregido)
     password_block = f'''<script>
+window.onload = function() {{
 const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
-if (clave === null || clave !== "{PASSWORD}") {{
+if (!clave || clave !== "{PASSWORD}") {{
     document.body.innerHTML = `
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
@@ -63,6 +63,7 @@ if (clave === null || clave !== "{PASSWORD}") {{
     </div>
     `;
 }}
+}};
 </script>'''
 
     # Plantilla HTML

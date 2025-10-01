@@ -1,6 +1,7 @@
 <script>
+window.onload = function() {
 const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
-if (clave === null || clave !== "Zebra2025") {
+if (!clave || clave !== "Zebra2025") {
     document.body.innerHTML = `
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
@@ -10,6 +11,7 @@ if (clave === null || clave !== "Zebra2025") {
     </div>
     `;
 }
+};
 </script><!DOCTYPE html>
 <html lang="es">
 <head>
@@ -35,7 +37,7 @@ if (clave === null || clave !== "Zebra2025") {
 <tr><td class='label'>IP</td><td>10.59.14.49</td></tr>
 <tr><td class='label'>Fecha Mtto</td><td>18/septiembre/2025</td></tr>
         </table>
-        <p class="actualizado">Última actualización: 2025-10-01 12:21</p>
+        <p class="actualizado">Última actualización: 2025-10-01 12:26</p>
     </div>
     <footer class="footer">
         <p>© 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
