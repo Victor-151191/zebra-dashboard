@@ -3,17 +3,17 @@ import sqlite3, os, sys
 from datetime import datetime
 from dotenv import load_dotenv
 
-# 📁 Configuración de rutas y nombres
+# Configuración de rutas y nombres
 DB_PATH = "Inventario de impresora zebra.db"
 TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "log.txt"
 
-# 🔐 Cargar contraseña desde .env
+# Cargar contraseña desde .env
 load_dotenv()
 PASSWORD = os.getenv("QR_PASSWORD", "Zebra2025")
 
-# 📝 Función para registrar mensajes en log.txt y mostrar en consola
+# Función para registrar mensajes en log.txt y mostrar en consola
 def log(mensaje):
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
     mensaje_final = f"[{fecha}] {mensaje}"
@@ -21,10 +21,10 @@ def log(mensaje):
         f.write(mensaje_final + "\n")
     print(mensaje_final)
 
-# 🔍 Verifica que la base y la tabla existan
+# Verifica que la base y la tabla existan
 def validar_base():
     if not os.path.exists(DB_PATH):
-        log(f"❌ Base de datos no encontrada: {DB_PATH}")
+        log(f"Base de datos no encontrada: {DB_PATH}")
         sys.exit(1)
 
     conn = sqlite3.connect(DB_PATH)
@@ -34,27 +34,26 @@ def validar_base():
     conn.close()
 
     if TABLE_NAME not in tablas:
-        log(f"❌ Tabla '{TABLE_NAME}' no encontrada en la base.")
+        log(f"Tabla '{TABLE_NAME}' no encontrada en la base.")
         sys.exit(1)
 
-# 🧾 Genera fichas HTML para cada registro con serial válido
+# Genera fichas HTML para cada registro con serial válido
 def generar_fichas_html():
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-    log("🔌 Conectando a la base de datos...")
+    log("Conectando a la base de datos...")
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {TABLE_NAME}")
     rows = cursor.fetchall()
     columns = [desc[0] for desc in cursor.description]
     conn.close()
-    log(f"📦 Registros encontrados: {len(rows)}")
+    log(f"Registros encontrados: {len(rows)}")
 
-    # 🔐 Bloque de protección por contraseña
-    password_block = f'''
-<script>
+# Bloque de protección por contraseña
+password_block = f'''<script>
 const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
-if (clave !== "{PASSWORD}") {{
+if (clave === null || clave !== "{PASSWORD}") {{
     document.body.innerHTML = `
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
@@ -64,11 +63,11 @@ if (clave !== "{PASSWORD}") {{
     </div>
     `;
 }}
-</script>
-'''
+</script>'''
 
-    # 🧩 Plantilla HTML
-    template = """<!DOCTYPE html>
+
+    # Plantilla HTML
+template = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -97,13 +96,13 @@ if (clave !== "{PASSWORD}") {{
 </html>
 """
 
-    total = 0
-    for row in rows:
+total = 0
+for row in rows:
         data = dict(zip(columns, row))
         serial = data.get("Serial Number")
 
         if not serial or str(serial).strip().upper() == "NULL":
-            log(f"⚠️ Fila ignorada por serial vacío: {data}")
+            log(f"Fila ignorada por serial vacío: {data}")
             continue
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
@@ -113,10 +112,10 @@ if (clave !== "{PASSWORD}") {{
         with open(os.path.join(OUTPUT_FOLDER, f"{serial}.html"), "w", encoding="utf-8") as f:
             f.write(html)
 
-        log(f"✅ Ficha generada: {serial}.html")
+        log(f"Ficha generada: {serial}.html")
         total += 1
 
-    log(f"📊 Total de fichas generadas: {total}")
+log(f"Total de fichas generadas: {total}")
 
 # 🚀 Punto de entrada
 if __name__ == "__main__":
