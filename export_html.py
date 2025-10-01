@@ -1,4 +1,4 @@
-#crea pagina HTML
+# crea pagina HTML
 import sqlite3, os, sys
 from datetime import datetime
 from dotenv import load_dotenv
@@ -50,8 +50,8 @@ def generar_fichas_html():
     conn.close()
     log(f"Registros encontrados: {len(rows)}")
 
-# Bloque de protección por contraseña
-password_block = f'''<script>
+    # Bloque de protección por contraseña (corregido)
+    password_block = f'''<script>
 const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
 if (clave === null || clave !== "{PASSWORD}") {{
     document.body.innerHTML = `
@@ -65,9 +65,8 @@ if (clave === null || clave !== "{PASSWORD}") {{
 }}
 </script>'''
 
-
     # Plantilla HTML
-template = """<!DOCTYPE html>
+    template = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -96,8 +95,8 @@ template = """<!DOCTYPE html>
 </html>
 """
 
-total = 0
-for row in rows:
+    total = 0
+    for row in rows:
         data = dict(zip(columns, row))
         serial = data.get("Serial Number")
 
@@ -115,9 +114,9 @@ for row in rows:
         log(f"Ficha generada: {serial}.html")
         total += 1
 
-log(f"Total de fichas generadas: {total}")
+    log(f"Total de fichas generadas: {total}")
 
-# 🚀 Punto de entrada
+# Punto de entrada
 if __name__ == "__main__":
     validar_base()
     generar_fichas_html()
