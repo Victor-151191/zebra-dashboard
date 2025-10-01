@@ -1,12 +1,17 @@
 #crea pagina HTML
 import sqlite3, os, sys
 from datetime import datetime
+from dotenv import load_dotenv
 
 # 📁 Configuración de rutas y nombres
 DB_PATH = "Inventario de impresora zebra.db"
 TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "log.txt"
+
+# 🔐 Cargar contraseña desde .env
+load_dotenv()
+PASSWORD = os.getenv("QR_PASSWORD", "Zebra2025")
 
 # 📝 Función para registrar mensajes en log.txt y mostrar en consola
 def log(mensaje):
@@ -44,6 +49,23 @@ def generar_fichas_html():
     columns = [desc[0] for desc in cursor.description]
     conn.close()
     log(f"📦 Registros encontrados: {len(rows)}")
+
+    # 🔐 Bloque de protección por contraseña
+    password_block = f'''
+<script>
+const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
+if (clave !== "{PASSWORD}") {{
+    document.body.innerHTML = `
+    <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
+        <img src="qualtec.ico" width="80" />
+        <h2 style="color:#B22222;">Acceso denegado</h2>
+        <p>Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte.</p>
+        <p style="font-size:12px; color:gray;">Sistema desarrollado por Víctor Manuel Salinas González</p>
+    </div>
+    `;
+}}
+</script>
+'''
 
     # 🧩 Plantilla HTML
     template = """<!DOCTYPE html>
@@ -86,7 +108,7 @@ def generar_fichas_html():
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
         fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-        html = template.format(serial=serial, rows=html_rows, fecha=fecha_actual)
+        html = password_block + template.format(serial=serial, rows=html_rows, fecha=fecha_actual)
 
         with open(os.path.join(OUTPUT_FOLDER, f"{serial}.html"), "w", encoding="utf-8") as f:
             f.write(html)
@@ -100,4 +122,3 @@ def generar_fichas_html():
 if __name__ == "__main__":
     validar_base()
     generar_fichas_html()
-
