@@ -60,7 +60,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
         <h2 style="color:#B22222;">Acceso denegado</h2>
-        <p>Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte.</p>
+        <p style="font-size:20px; color:gray; margin-top:40px;">Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte IT.</p>
         <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px;">🔁 Reintentar</button>
         <p style="font-size:12px; color:gray; margin-top:40px;">Sistema desarrollado por Víctor Manuel Salinas González</p>
     </div>
