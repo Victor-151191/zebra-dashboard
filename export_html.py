@@ -50,20 +50,23 @@ def generar_fichas_html():
     conn.close()
     log(f"Registros encontrados: {len(rows)}")
 
+
+    #Bloque de Proteccion con Contraseña
     password_block = f'''<script>
-window.onload = function() {{
+window.addEventListener("DOMContentLoaded", function() {{
 const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
-if (!clave || clave !== "{PASSWORD}") {{
+if (!clave || clave.trim() !== "{PASSWORD}") {{
     document.body.innerHTML = `
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
         <h2 style="color:#B22222;">Acceso denegado</h2>
         <p>Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte.</p>
-        <p style="font-size:12px; color:gray;">Sistema desarrollado por Víctor Manuel Salinas González</p>
+        <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px;">🔁 Reintentar</button>
+        <p style="font-size:12px; color:gray; margin-top:40px;">Sistema desarrollado por Víctor Manuel Salinas González</p>
     </div>
     `;
 }}
-}};
+}});
 </script>'''
 
     # Plantilla HTML
