@@ -44,10 +44,14 @@ for row in rows:
         font = ImageFont.load_default()
 
     # Esquina superior derecha: ID
-    draw.text((220, 5), f"ID: {id}", font=font, fill="black")
+    draw.text((10, 5), f"ID: {id}", font=font, fill="black")
 
-    # Debajo del QR: Serial
-    draw.text((10, 340), f"Serial: {serial}", font=font, fill="black")
+    # Centrado debajo del QR: Serial
+    serial_text = f"Serial: {serial}"
+    text_width, _ = draw.textsize(serial_text, font=font)
+    x_center = (300 - text_width) // 2
+    draw.text((x_center, 340), serial_text, font=font, fill="black")
+
 
     # Guardar imagen
     filename = f"{id}_{serial}.png"
