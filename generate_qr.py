@@ -1,45 +1,56 @@
 import sqlite3, qrcode, os
+from PIL import Image, ImageDraw, ImageFont
 
+# Configuración
 db_path = "Inventario de impresora zebra.db"
 output_folder = "qr_codes"
+base_url = "https://victor-151191.github.io/zebra-dashboard/"
+font_path = "arial.ttf"  # Asegúrate de tener esta fuente o usa una del sistema
+
 os.makedirs(output_folder, exist_ok=True)
 
-base_url = "https://victor-151191.github.io/zebra-dashboard/"
-
+# Conexión a la base
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
-cursor.execute('SELECT "Serial Number" FROM inventario_zebra')
+cursor.execute('SELECT ID, "Serial Number" FROM inventario_zebra ORDER BY ID ASC')
 rows = cursor.fetchall()
 conn.close()
 
 for row in rows:
-    serial = row[0]
+    id, serial = row
     if not serial or str(serial).strip().upper() == "NULL":
         print("Serial vacío, QR no generado:", row)
         continue
 
-    url = f"{base_url}/{serial}.html"
+    serial = str(serial).strip()
+    id = str(id).strip()
+    url = f"{base_url}{serial}.html"
 
+    # Generar QR
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(url)
     qr.make(fit=True)
+    qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+    qr_img = qr_img.resize((300, 300))
 
-    img = qr.make_image(fill_color="darkblue", back_color="white")
-    img.save(os.path.join(output_folder, f"{serial}.png"))
+    # Crear imagen base
+    img = Image.new("RGB", (300, 360), "white")
+    img.paste(qr_img, (0, 30))  # Deja espacio arriba para el ID
 
-    # Personalización del color del QR
-    qr = qrcode.QRCode(
-        version=1,
-        box_size=20,
-        border=6
-    )
-    qr.add_data(url)
-    qr.make(fit=True)
+    draw = ImageDraw.Draw(img)
+    try:
+        font = ImageFont.truetype(font_path, 16)
+    except:
+        font = ImageFont.load_default()
 
-    # Cambia el color aquí 
-    img = qr.make_image(fill_color="black", back_color="white")
+    # Esquina superior derecha: ID
+    draw.text((220, 5), f"ID: {id}", font=font, fill="black")
 
-    qr_path = os.path.join(output_folder, f"{serial}.png")
-    img.save(qr_path)
+    # Debajo del QR: Serial
+    draw.text((10, 340), f"Serial: {serial}", font=font, fill="black")
 
-    print(f"QR generado para {serial} → {url}")
+    # Guardar imagen
+    filename = f"{id}_{serial}.png"
+    img.save(os.path.join(output_folder, filename))
+
+    print(f"QR generado para ID {id} / Serial {serial} → {url}")
