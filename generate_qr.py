@@ -48,7 +48,8 @@ for row in rows:
 
     # Centrado debajo del QR: Serial
     serial_text = f"Serial: {serial}"
-    text_width, _ = draw.textsize(serial_text, font=font)
+    bbox = draw.textbbox((0, 0), serial_text, font=font)
+    text_width = bbox[2] - bbox[0]
     x_center = (300 - text_width) // 2
     draw.text((x_center, 340), serial_text, font=font, fill="black")
 
