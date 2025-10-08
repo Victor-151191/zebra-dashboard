@@ -1,10 +1,23 @@
 /* Foto de fondo */
 body {
-background-image: url("fondo.jpeg");
+background-image: url("fondo.jpg");
 background-size: cover;
 background-position: center;
 background-attachment: fixed;
 font-family: Arial, sans-serif;
+}
+
+.glass {
+background: rgba(255, 255, 255, 0.15);
+border-radius: 12px;
+padding: 20px;
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+margin: 40px auto;
+width: 80%;
+color: #fff;
 }
 
 /* Tarjeta principal */
@@ -74,13 +87,3 @@ div[style*="position:fixed"] {
     text-decoration: underline;
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.15); /* Transparencia */
-border-radius: 12px;
-padding: 20px;
-  backdrop-filter: blur(10px); /* Desenfoque */
-  -webkit-backdrop-filter: blur(10px); /* Compatibilidad */
-border: 1px solid rgba(255, 255, 255, 0.3);
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  color: #fff; /* Ajusta según fondo */
-}
