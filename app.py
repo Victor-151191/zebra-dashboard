@@ -1,31 +1,32 @@
 # 🧱 1. Importaciones y configuración inicial
 # ------------------------------------------
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import os
-from dotenv import load_dotenv  # Carga variables desde .env
+from dotenv import load_dotenv
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
 load_dotenv()
-
 app = Flask(__name__)
 
-# Ruta del archivo de base de datos (desde .env o valor por defecto)
+# Ruta del archivo de base de datos
 DB_PATH = os.getenv("DB_PATH", "Inventario de impresora zebra.db")
+
+# Carpeta donde se guardarán las imágenes
+UPLOAD_FOLDER = 'static/defectos'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # 🏠 2. Ruta principal '/' – Mostrar inventario
 # --------------------------------------------
 @app.route('/')
 def index():
-    # Conexión a la base de datos
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-
-    # Consulta todos los registros ordenados por ID
     cursor.execute('SELECT * FROM inventario_zebra ORDER BY ID ASC')
     rows = cursor.fetchall()
     conn.close()
-
-    # Renderiza la plantilla con los datos
     return render_template('index.html', rows=rows)
 
 # ➕ 3. Ruta '/add' – Agregar nueva impresora
@@ -33,64 +34,112 @@ def index():
 @app.route('/add', methods=['POST'])
 def add():
     try:
-        # Captura los campos enviados desde el formulario HTML
         serial = request.form['Serial Number']
         modelo = request.form['Part Number']
         ubicacion = request.form['Location']
         fecha = request.form['Fecha Mtto']
 
-        # Inserta el nuevo registro en la base de datos
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO inventario_zebra ("Serial Number", "Part Number", "Location", "Fecha Mtto") VALUES (?, ?, ?, ?)',
-                    (serial, modelo, ubicacion, fecha))
+        cursor.execute('''
+            INSERT INTO inventario_zebra ("Serial Number", "Part Number", "Location", "Fecha Mtto")
+            VALUES (?, ?, ?, ?)
+        ''', (serial, modelo, ubicacion, fecha))
         conn.commit()
         conn.close()
-
-        # Redirige al inicio después de guardar
         return redirect('/')
     except Exception as e:
-        return f"Error: {e}", 400  # Muestra el error si algo falla
+        return f"Error: {e}", 400
 
 # 🔄 4. Ruta '/update' – Modificar fecha de mantenimiento
 # -------------------------------------------------------
 @app.route('/update', methods=['POST'])
 def update():
     try:
-        # Captura el ID y la nueva fecha desde el formulario
         id = request.form['id']
         fecha = request.form['fecha']
 
-        # Ejecuta el UPDATE en la base de datos
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute('UPDATE inventario_zebra SET "Fecha Mtto" = ? WHERE ID = ?', (fecha, id))
         conn.commit()
         conn.close()
-
-        # Redirige al inicio después de actualizar
         return redirect('/')
     except Exception as e:
         return f"<h2>Error al actualizar: {e}</h2>", 400
 
-# 🔐 5. Ruta '/ficha' – Acceso a la ficha electrónica
-# ---------------------------------------------------
-# 🔓 Ruta '/ficha' – Acceso libre a la ficha electrónica
-#@app.route('/ficha')
-#def ficha():
-    #return redirect('/docs/inventario_exportado.html')
+# 🖼️ 5. Ruta '/defecto/<id>' – Registrar imagen de defecto
+# ---------------------------------------------------------
+@app.route('/defecto/<int:id>', methods=['GET', 'POST'])
+def registrar_defecto(id):
+    if request.method == 'POST':
+        try:
+            fecha = request.form['fecha']
+            descripcion = request.form['descripcion']
+            imagen = request.files['imagen']
+
+            fecha_formato = datetime.strptime(fecha, '%Y-%m-%d').strftime('%Y-%m-%d')
+            folder_path = os.path.join(app.config['UPLOAD_FOLDER'], str(id), fecha_formato)
+            os.makedirs(folder_path, exist_ok=True)
+
+            filename = secure_filename(imagen.filename)
+            imagen_path = os.path.join(folder_path, filename)
+            imagen.save(imagen_path)
+
+            conn = sqlite3.connect(DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO defectos (zebra_id, fecha_mtto, descripcion, imagen_path)
+                VALUES (?, ?, ?, ?)
+            ''', (id, fecha, descripcion, imagen_path))
+            conn.commit()
+            conn.close()
+
+            return redirect('/')
+        except Exception as e:
+            return f"<h3>Error al registrar defecto: {e}</h3>", 400
+
+    return f'''
+        <h2>📸 Registrar defecto para impresora ID {id}</h2>
+        <form method="POST" enctype="multipart/form-data">
+            Fecha Mtto: <input type="date" name="fecha"><br>
+            Descripción: <input type="text" name="descripcion"><br>
+            Imagen: <input type="file" name="imagen"><br>
+            <button type="submit">Guardar</button>
+        </form>
+    '''
+
+# 📋 6. Ruta '/ver_defectos/<id>' – Ver imágenes por impresora
+# ------------------------------------------------------------
+@app.route('/ver_defectos/<int:id>')
+def ver_defectos(id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT fecha_mtto, descripcion, imagen_path FROM defectos WHERE zebra_id = ?', (id,))
+    defectos = cursor.fetchall()
+    conn.close()
+
+    html = f"<h2>🧾 Defectos registrados para impresora ID {id}</h2>"
+    for fecha, descripcion, path in defectos:
+        rel_path = path.replace('static/', '')
+        html += f'''
+            <div>
+                <p><strong>{fecha}</strong>: {descripcion}</p>
+                <img src="/static/{rel_path}" width="300"><br><br>
+            </div>
+        '''
+    return html
+
+# 🔐 7. Ruta '/ficha' – Acceso protegido
+# --------------------------------------
 @app.route('/ficha', methods=['GET', 'POST'])
 def ficha():
-    load_dotenv(override=True)  # Recarga el estado actualizado
-
-    #Si se envió el formulario con contraseña
+    load_dotenv(override=True)
     if request.method == 'POST':
         if request.form['password'] == os.getenv("QR_PASSWORD", "Zebra2025"):
             return redirect('/docs/inventario_exportado.html')
         else:
             return "<h3>Contraseña incorrecta</h3>"
-
-    # Muestra el formulario de acceso
     return '''
         <h2>🔐 Acceso protegido</h2>
         <form method="POST">
@@ -99,7 +148,7 @@ def ficha():
         </form>
     '''
 
-# 🚀 6. Lanzamiento del servidor
+# 🚀 8. Lanzamiento del servidor
 # ------------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
