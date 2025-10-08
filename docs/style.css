@@ -1,13 +1,12 @@
 /* Foto de fondo */
 body {
-background-image: url("fondo.jpeg");
+background-image: url("jabil-office.jpg");
 background-size: cover;
 background-position: center;
 background-attachment: fixed;
 font-family: Arial, sans-serif;
 margin: 0;
 padding: 0;
-background-color: #070707;
 }
 
 /* Ficha con efecto de vidrio */
@@ -44,7 +43,7 @@ margin-top: 10px;
 padding: 10px;
 border: 1px solid rgba(255, 255, 255, 0.2);
 background: rgba(255, 255, 255, 0.05);
-color: #fff;
+color: #0f0f0f;
 font-size: 16px;
 }
 
@@ -76,11 +75,11 @@ font-weight: bold;
 .footer {
 text-align: center;
 font-size: 13px;
-color: #0b0a0a;
+color: #fffefe;
 margin-top: 40px;
 }
 
 .footer a {
-color: #070707;
+color: #fdfdfd;
 text-decoration: underline;
 }
