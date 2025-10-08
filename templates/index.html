@@ -19,7 +19,6 @@
     <!-- ➕ 2. Formulario para agregar impresoras -->
     <h2>Agregar impresora</h2>
     <form method="POST" action="/add">
-        <!-- Campos que se enviarán al backend vía POST -->
         <input name="Serial Number" placeholder="Serial Number" required><br>
         <input name="Part Number" placeholder="Part Number" required><br>
         <input name="Location" placeholder="Location"><br>
@@ -30,7 +29,6 @@
     <!-- 🔄 3. Formulario para actualizar fecha de mantenimiento -->
     <h2>Actualizar fecha de mantenimiento</h2>
     <form method="POST" action="/update">
-        <!-- Se requiere el ID del registro y la nueva fecha -->
         <input name="ID" type="number" placeholder="ID de impresora" required><br>
         <input name="Fecha Mtto" type="date" placeholder="Nueva fecha de mtto" required><br>
         <button type="submit">Actualizar</button>
@@ -39,14 +37,14 @@
     <!-- 📋 4. Visualización del inventario actual -->
     <h2>Inventario actual</h2>
     <ul>
-        <!-- Itera sobre los registros enviados desde Flask -->
         {% for row in rows %}
-            <li>ID {{ row[0] }} → {{ row[1] }} / {{ row[2] }} / {{ row[3] }} / {{ row[4] }}</li>
+            <li>
+                ID {{ row[0] }} → {{ row[1] }} / {{ row[2] }} / {{ row[3] }} / {{ row[4] }}<br>
+                <a href="/defecto/{{ row[0] }}">📸 Registrar defecto</a> |
+                <a href="/ver_defectos/{{ row[0] }}">🧾 Ver defectos</a>
+            </li>
         {% endfor %}
     </ul>
-
-    <a href="/defecto/{{ row[0] }}">📸 Registrar defecto</a>
-<a href="/ver_defectos/{{ row[0] }}">🧾 Ver defectos</a>
 
     <!-- ✅ 5. Mensaje de confirmación si el registro fue exitoso -->
     {% if request.args.get('success') %}
