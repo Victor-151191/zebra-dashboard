@@ -99,15 +99,7 @@ def registrar_defecto(id):
         except Exception as e:
             return f"<h3>Error al registrar defecto: {e}</h3>", 400
 
-    return f'''
-        <h2>📸 Registrar defecto para impresora ID {id}</h2>
-        <form method="POST" enctype="multipart/form-data">
-            Fecha Mtto: <input type="date" name="fecha"><br>
-            Descripción: <input type="text" name="descripcion"><br>
-            Imagen: <input type="file" name="imagen"><br>
-            <button type="submit">Guardar</button>
-        </form>
-    '''
+    return render_template('registrar_defecto.html', id=id)
 
 # 📋 6. Ruta '/ver_defectos/<id>' – Ver imágenes por impresora
 # ------------------------------------------------------------
