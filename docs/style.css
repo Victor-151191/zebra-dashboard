@@ -18,7 +18,8 @@ backdrop-filter: blur(10px);
 border: 1px solid rgba(255, 255, 255, 0.3);
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 margin: 40px auto;
-width: 80%;
+max-width: 800px;
+width: fit-content;
 color: #fff;
 }
 
@@ -26,9 +27,21 @@ color: #fff;
 color: #fff;
 }
 
+.glass-table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.glass-table td, .glass-table th {
+padding: 8px 12px;
+border: 1px solid rgba(255, 255, 255, 0.3);
+background: rgba(255, 255, 255, 0.05);
+color: #fff;
+}
+
 /* Tarjeta principal */
 .card {
-    background-color: rgba(251, 248, 248, 0.95);
+    background-color: rgba(248, 245, 245, 0.95);
     border-radius: 10px;
     padding: 30px;
     max-width: 700px;

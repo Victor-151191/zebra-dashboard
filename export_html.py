@@ -92,7 +92,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
 
     <div class="glass">
         <h2>Ficha Técnica Zebra</h2>
-        <table>
+        <table class="glass-table">
             {rows}
         </table>
         <p class="actualizado">Última actualización: {fecha}</p>
