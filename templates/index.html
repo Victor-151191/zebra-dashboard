@@ -1,0 +1,54 @@
+<!-- 🧱 1. Estructura base del documento HTML -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 🖼️ Enlace al archivo CSS para estilos visuales -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- 🔗 Ícono personalizado para la pestaña del navegador -->
+    <link rel="icon" href="qualtec.ico" type="image/x-icon">
+
+    <!-- 🏷️ Título de la página -->
+    <title>Dashboard Zebra</title>
+
+    <!-- 📱 Configuración para que la interfaz sea responsiva en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+    <!-- ➕ 2. Formulario para agregar impresoras -->
+    <h2>Agregar impresora</h2>
+    <form method="POST" action="/add">
+        <!-- Campos que se enviarán al backend vía POST -->
+        <input name="Serial Number" placeholder="Serial Number" required><br>
+        <input name="Part Number" placeholder="Part Number" required><br>
+        <input name="Location" placeholder="Location"><br>
+        <input name="Fecha Mtto" type="date"><br>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <!-- 🔄 3. Formulario para actualizar fecha de mantenimiento -->
+    <h2>Actualizar fecha de mantenimiento</h2>
+    <form method="POST" action="/update">
+        <!-- Se requiere el ID del registro y la nueva fecha -->
+        <input name="ID" type="number" placeholder="ID de impresora" required><br>
+        <input name="Fecha Mtto" type="date" placeholder="Nueva fecha de mtto" required><br>
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <!-- 📋 4. Visualización del inventario actual -->
+    <h2>Inventario actual</h2>
+    <ul>
+        <!-- Itera sobre los registros enviados desde Flask -->
+        {% for row in rows %}
+            <li>ID {{ row[0] }} → {{ row[1] }} / {{ row[2] }} / {{ row[3] }} / {{ row[4] }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- ✅ 5. Mensaje de confirmación si el registro fue exitoso -->
+    {% if request.args.get('success') %}
+        <p style="color:green;">Registro guardado correctamente.</p>
+    {% endif %}
+
+</body>
+</html>

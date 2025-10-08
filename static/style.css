@@ -1,0 +1,88 @@
+/* 🎨 1. Estilo general del cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;           /* Fuente legible y estándar */
+    background-color: #f4f6f8;                /* Fondo gris claro para suavidad visual */
+    margin: 0;                                /* Elimina margen por defecto */
+    padding: 20px;                            /* Espaciado interno general */
+    color: #333;                              /* Texto en gris oscuro para buena lectura */
+}
+
+/* 🏷️ 2. Encabezados principales */
+h2 {
+    color: #2c3e50;                           /* Azul oscuro para destacar títulos */
+    margin-top: 40px;                         /* Espacio superior para separación visual */
+}
+
+/* 🧾 3. Estilo de formularios */
+form {
+    background-color: #ffffff;                /* Fondo blanco para contraste */
+    padding: 15px;                            /* Espaciado interno cómodo */
+    border-radius: 8px;                       /* Bordes redondeados para suavidad visual */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);     /* Sombra ligera para profundidad */
+    max-width: 400px;                         /* Ancho máximo para buena lectura en móvil */
+    margin-bottom: 30px;                      /* Separación entre formularios o secciones */
+}
+
+/* 🧩 4. Campos de entrada y botones */
+input, button {
+    display: block;                           /* Cada elemento en su propia línea */
+    width: 100%;                              /* Ocupa todo el ancho disponible */
+    margin: 10px 0;                           /* Espaciado vertical entre campos */
+    padding: 10px;                            /* Área táctil cómoda para móviles */
+    font-size: 16px;                          /* Tamaño de texto legible */
+    border: 1px solid #ccc;                   /* Borde gris claro para definición */
+    border-radius: 5px;                       /* Bordes redondeados para estética suave */
+}
+
+/* 🔘 5. Botón principal */
+button {
+    background-color: #3498db;                /* Azul vibrante para acción principal */
+    color: white;                             /* Texto blanco para contraste */
+    border: none;                             /* Sin borde adicional */
+    cursor: pointer;                          /* Cursor tipo mano al pasar por encima */
+}
+
+/* 🔁 6. Efecto hover del botón */
+button:hover {
+    background-color: #2980b9;                /* Azul más oscuro al pasar el cursor */
+}
+
+/* 📋 7. Lista de registros */
+ul {
+    list-style-type: none;                    /* Elimina viñetas por defecto */
+    padding: 0;                               /* Sin espacio interno adicional */
+}
+
+li {
+    background-color: #ecf0f1;                /* Fondo gris claro para cada ítem */
+    margin: 5px 0;                            /* Espaciado vertical entre ítems */
+    padding: 10px;                            /* Espaciado interno para legibilidad */
+    border-radius: 5px;                       /* Bordes redondeados para estética uniforme */
+}
+
+/* 🔐 Estilo para el botón de protección */
+.proteccion-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    width: fit-content;
+}
+
+.btn-proteccion {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-on {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-off {
+    background-color: #2ecc71;
+    color: white;
+}
