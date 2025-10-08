@@ -89,10 +89,6 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
                 border-radius:5px; font-weight:bold;">
         {banner}
     </div>
-    <img src="jabil.png" alt="image/png">
-    <video autoplay muted loop id="video-fondo">
-        <source src="video.mp4" type="video/mp4">
-    </video>
     <div class="card">
         <h2>Ficha Técnica Zebra</h2>
         <table>
@@ -102,7 +98,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
     </div>
     <footer class="footer">
         <p>© 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
-        <a href="https://qualtec.odoo.com/" target="_blank" style="color: #eee; text-decoration: underline;">
+        <a href="https://qualtec.odoo.com/" target="_blank"; text-decoration: underline;">
         Qualtec Monterrey</a></p>
     </footer>
 </body>
