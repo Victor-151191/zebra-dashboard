@@ -1,4 +1,5 @@
 /* Foto de fondo */
+/* Foto de fondo */
 body {
 background-image: url("jabil-office.jpg");
 background-size: cover;
@@ -19,7 +20,7 @@ backdrop-filter: blur(10px);
 border: 1px solid rgba(255, 255, 255, 0.3);
 box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 margin: 80px auto;
-max-width: 800px;
+max-width: 800px; 
 width: fit-content;
 font-family: 'Segoe UI', sans-serif;
 color: #faf9f9;
@@ -82,4 +83,27 @@ margin-top: 40px;
 .footer a {
 color: #fdfdfd;
 text-decoration: underline;
+}
+
+/* 📱 Optimización móvil */
+@media screen and (max-width: 600px) {
+.ficha {
+padding: 20px;
+font-size: 18px;
+width: 95%;
+margin: 20px auto;
+}
+
+.ficha h2 {
+font-size: 22px;
+}
+
+.ficha td, .ficha th {
+font-size: 16px;
+padding: 8px;
+}
+
+.actualizado {
+font-size: 13px;
+}
 }
