@@ -89,13 +89,17 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
                 border-radius:5px; font-weight:bold;">
         {banner}
     </div>
-    <div class="card">
-        <h2>Ficha Técnica Zebra</h2>
-        <table>
-            {rows}
-        </table>
-        <p class="actualizado">Última actualización: {fecha}</p>
+
+    <div class="glass">
+        <div class="card">
+            <h2>Ficha Técnica Zebra</h2>
+            <table>
+                {rows}
+            </table>
+            <p class="actualizado">Última actualización: {fecha}</p>
+        </div>
     </div>
+
     <footer class="footer">
         <p>© 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
         <a href="https://qualtec.odoo.com/" target="_blank"; text-decoration: underline;">

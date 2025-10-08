@@ -3,9 +3,8 @@ body {
 background-image: url("fondo.jpeg");
 background-size: cover;
 background-position: center;
-background-repeat: no-repeat;
 background-attachment: fixed;
-  color: rgb(10, 10, 10); /* Ajusta según contraste */
+font-family: Arial, sans-serif;
 }
 
 /* Tarjeta principal */
@@ -71,6 +70,17 @@ div[style*="position:fixed"] {
 }
 
 .footer a {
-    color: #f50606;
+    color: #070707;
     text-decoration: underline;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.15); /* Transparencia */
+border-radius: 12px;
+padding: 20px;
+  backdrop-filter: blur(10px); /* Desenfoque */
+  -webkit-backdrop-filter: blur(10px); /* Compatibilidad */
+border: 1px solid rgba(255, 255, 255, 0.3);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: #fff; /* Ajusta según fondo */
 }
