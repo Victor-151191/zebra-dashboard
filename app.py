@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from datetime import datetime
 
+print(os.listdir("templates"))
+
 load_dotenv()
 app = Flask(__name__)
 
