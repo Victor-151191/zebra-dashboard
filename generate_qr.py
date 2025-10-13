@@ -14,14 +14,9 @@ docs_folder = "docs"
 base_url = "https://Victor-151191.github.io/zebra-dashboard/docs/"
 font_path = "arial.ttf"
 
-# 🧹 Limpiar carpeta de salida
+# 📁 Crear carpeta si no existe
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
-else:
-    for f in os.listdir(output_folder):
-        ruta = os.path.join(output_folder, f)
-        if os.path.isfile(ruta):
-            os.remove(ruta)
 
 # 🔗 Conexión a la base
 try:
@@ -57,6 +52,13 @@ for row in rows:
         print(f"❌ Ficha no encontrada: {ficha_path}")
         continue
 
+    # 📦 Verifica si el QR ya existe
+    filename = f"{id}_{serial}_{estado.replace(' ', '_')}.png"
+    filepath = os.path.join(output_folder, filename)
+    if os.path.exists(filepath):
+        print(f"📌 QR ya existe, no se regenera: {filename}")
+        continue
+
     # 🎯 Generar QR
     try:
         qr = qrcode.QRCode(version=1, box_size=10, border=4)
@@ -84,8 +86,6 @@ for row in rows:
         x_center = (300 - text_width) // 2
         draw.text((x_center, 350), serial_text, font=font, fill="black")
 
-        filename = f"{id}_{serial}_{estado.replace(' ', '_')}.png"
-        filepath = os.path.join(output_folder, filename)
         img.save(filepath)
         print(f"✅ QR generado y guardado: {filename}")
         total_qr += 1
@@ -103,7 +103,7 @@ for row in rows:
 
 # 📊 Resumen final
 if total_qr == 0:
-    print("\n⚠️ No se generó ningún código QR. Verifica los datos en la base o las fichas en /docs.")
+    print("\n⚠️ No se generó ningún código QR nuevo. Verifica los datos en la base o las fichas en /docs.")
 else:
     print(f"\n✅ Total de códigos QR generados: {total_qr}")
     print(f"📁 Carpeta de salida: {output_folder}")
