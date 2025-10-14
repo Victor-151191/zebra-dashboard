@@ -67,19 +67,19 @@ for row in rows:
         qr.add_data(url)
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-        qr_img = qr_img.resize((120, 120))  # Tamaño reducido para etiquetas pequeñas
+        qr_img = qr_img.resize((150, 150))  # Tamaño reducido para etiquetas pequeñas
 
         # 🖼️ Crear imagen base del tamaño físico de la etiqueta (300x177 px ≈ 1.181 x 0.591 in a 300 dpi)
-        img = Image.new("RGB", (300, 177), "white")
-        img.paste(qr_img, (90, 30))  # Centrado horizontal
+        img = Image.new("RGB", (300, 230), "white")#(A=400, es el ancho y B=155, es el largo)
+        img.paste(qr_img, (70, 40))  # Centrado horizontal
 
         draw = ImageDraw.Draw(img)
 
         # 🖋️ Cargar fuentes con tamaños optimizados
         try:
-            font_id = ImageFont.truetype(font_path, 14)       # ID
-            font_estado = ImageFont.truetype(font_path, 12)    # Estado
-            font_serial = ImageFont.truetype(font_path, 12)    # Serial
+            font_id = ImageFont.truetype(font_path, 30)       # ID
+            font_estado = ImageFont.truetype(font_path, 30)    # Estado
+            font_serial = ImageFont.truetype(font_path, 30)    # Serial
         except:
             font_id = font_estado = font_serial = ImageFont.load_default()
 
@@ -93,8 +93,8 @@ for row in rows:
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
         serial_width = draw.textlength(serial_text, font=font_serial)
-        draw.text(((300 - serial_width) // 2, 155), serial_text, font=font_serial, fill="black")
-
+        draw.text(((300 - serial_width) // 2, 200), serial_text, font=font_serial, fill="black")
+                #(300)mover lados      (2)centrado(200)Arriba abajo
         # 💾 Guardar imagen final
         img.save(filepath)
         print(f"QR generado y guardado: {filename}")
