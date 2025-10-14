@@ -1,15 +1,15 @@
-# 🧱 Crea página HTML para cada impresora Zebra
+# Crea página HTML para cada impresora Zebra
 import sqlite3, os, sys, shutil
 from datetime import datetime
 from dotenv import load_dotenv
 
-# 📁 Configuración de rutas y nombres
+# Configuración de rutas y nombres
 DB_PATH = "Inventario de impresora zebra.db"
 TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "log.txt"
 
-# 📝 Función para registrar mensajes en log.txt y mostrar en consola
+# Función para registrar mensajes en log.txt y mostrar en consola
 def log(mensaje):
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
     mensaje_final = f"[{fecha}] {mensaje}"
@@ -17,7 +17,7 @@ def log(mensaje):
         f.write(mensaje_final + "\n")
     print(mensaje_final)
 
-# ✅ Verifica que la base y la tabla existan
+# Verifica que la base y la tabla existan
 def validar_base():
     if not os.path.exists(DB_PATH):
         log(f"Base de datos no encontrada: {DB_PATH}")
@@ -33,15 +33,13 @@ def validar_base():
         log(f"Tabla '{TABLE_NAME}' no encontrada en la base.")
         sys.exit(1)
 
-# 🧾 Genera fichas HTML para cada registro con serial válido
+# Genera fichas HTML para cada registro con serial válido
 def generar_fichas_html():
-    load_dotenv(override=True)  # 🔄 Recarga .env en tiempo real
+    load_dotenv(override=True)  # Recarga .env en tiempo real
     PASSWORD = os.getenv("QR_PASSWORD", "QR_PASSWORD")
     PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 
-    # 🧹 Limpia carpeta de fichas anteriores
-    #shutil.rmtree(OUTPUT_FOLDER, ignore_errors=True)
-    #os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+    # Limpia carpeta de fichas anteriores
     for archivo in os.listdir(OUTPUT_FOLDER):
         ruta = os.path.join(OUTPUT_FOLDER, archivo)
     if archivo.endswith(".html"):
@@ -56,17 +54,17 @@ def generar_fichas_html():
     conn.close()
     log(f"Registros encontrados: {len(rows)}")
 
-    # 🔐 Bloque de protección con contraseña
+    # Bloque de protección con contraseña
     password_block = f'''<script>
 window.addEventListener("DOMContentLoaded", function() {{
-const clave = prompt("🔐 Ingrese la contraseña para acceder a esta ficha:");
+const clave = prompt("Ingrese la contraseña para acceder a esta ficha:");
 if (!clave || clave.trim() !== "{PASSWORD}") {{
     document.body.innerHTML = `
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
         <h2 style="color:#B22222;">Acceso denegado</h2>
         <p style="font-size:20px; color:black; margin-top:40px;">Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte IT.</p>
-        <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px;">🔁 Reintentar</button>
+        <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px;">Reintentar</button>
         <p style="font-size:12px; color:gray; margin-top:40px;">Sistema desarrollado por Víctor Manuel Salinas González</p>
     </div>
     `;
@@ -74,7 +72,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
 }});
 </script>'''
 
-    # 🧩 Plantilla HTML base con banner dinámico
+    # Plantilla HTML base con banner dinámico
     template = """<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -119,9 +117,9 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
         fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-        banner = "🔒 Protegida" if PROTECCION == "ON" else "🔓 Libre"
+        banner = "Protegida" if PROTECCION == "ON" else "Libre"
 
-        # 🔄 Genera HTML con o sin protección según .env
+        # Genera HTML con o sin protección según .env
         if PROTECCION == "ON":
             html = password_block + template.format(serial=serial, rows=html_rows, fecha=fecha_actual, banner=banner)
         else:
@@ -135,7 +133,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
 
     log(f"Total de fichas generadas: {total}")
 
-# 🚀 Punto de entrada
+# Punto de entrada
 if __name__ == "__main__":
     validar_base()
     generar_fichas_html()
