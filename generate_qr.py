@@ -22,7 +22,7 @@ if not os.path.exists(output_folder):
 try:
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute('SELECT ID, "Serial Number" FROM inventario_zebra ORDER BY ID ASC')
+    cursor.execute('SELECT ID, "Serial Number", "Host Name" FROM inventario_zebra ORDER BY ID ASC')
     rows = cursor.fetchall()
     conn.close()
 except Exception as e:
@@ -34,17 +34,21 @@ print(f"Total de filas leídas: {len(rows)}")
 # 🔄 Generar QR por cada registro
 total_qr = 0
 for row in rows:
-    id, serial = row
-    print(f"\n Procesando fila → ID: {id}, Serial: {serial}")
+    id, serial, host_name = row
+    print(f"\n Procesando fila → ID: {id}, Serial: {serial}, Host: {host_name}")
 
-    # Validar serial
+    # Validar serial y host
     if not serial or str(serial).strip().upper() == "NULL":
         print("Serial vacío o inválido, QR no generado.")
+        continue
+    if not host_name or str(host_name).strip().upper() == "NULL":
+        print("Host Name vacío o inválido, QR no generado.")
         continue
 
     # Normalizar datos
     serial = str(serial).strip().replace(" ", "_").replace("/", "-")
-    id = str(id).strip()
+    host_name = str(host_name).strip()
+    parte_variable = host_name[-5:]  # Extrae últimos 5 caracteres
     url = f"{base_url}{serial}.html"
     estado = "Protegida" if PROTECCION == "ON" else "Libre"
 
@@ -55,7 +59,7 @@ for row in rows:
         continue
 
     # Evitar duplicados
-    filename = f"{id}_{serial}_{estado.replace(' ', '_')}.png"
+    filename = f"{parte_variable}_{serial}_{estado.replace(' ', '_')}.png"
     filepath = os.path.join(output_folder, filename)
     if os.path.exists(filepath):
         print(f"QR ya existe, no se regenera: {filename}")
@@ -69,32 +73,28 @@ for row in rows:
         qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
         qr_img = qr_img.resize((150, 150))  # Tamaño reducido para etiquetas pequeñas
 
-        # 🖼️ Crear imagen base del tamaño físico de la etiqueta (300x177 px ≈ 1.181 x 0.591 in a 300 dpi)
-        img = Image.new("RGB", (300, 230), "white")#(A=400, es el ancho y B=155, es el largo)
+        # 🖼️ Crear imagen base del tamaño físico de la etiqueta
+        img = Image.new("RGB", (300, 230), "white")
         img.paste(qr_img, (70, 40))  # Centrado horizontal
 
         draw = ImageDraw.Draw(img)
 
         # 🖋️ Cargar fuentes con tamaños optimizados
         try:
-            font_id = ImageFont.truetype(font_path, 30)       # ID
-            font_estado = ImageFont.truetype(font_path, 30)    # Estado
-            font_serial = ImageFont.truetype(font_path, 30)    # Serial
+            font_host = ImageFont.truetype(font_path, 30)       # Host Name
+            font_estado = ImageFont.truetype(font_path, 30)     # Estado
+            font_serial = ImageFont.truetype(font_path, 30)     # Serial
         except:
-            font_id = font_estado = font_serial = ImageFont.load_default()
+            font_host = font_estado = font_serial = ImageFont.load_default()
 
-        # 🏷️ ID en esquina superior izquierda
-        draw.text((10, 5), f"ID: {id}", font=font_id, fill="black")
-
-        # 🔒 Estado en esquina superior derecha
-        #estado_width = draw.textlength(estado, font=font_estado)
-        #draw.text((300 - estado_width - 10, 5), estado, font=font_estado, fill="black")
+        # 🏷️ Host variable en esquina superior izquierda
+        draw.text((10, 5), parte_variable, font=font_host, fill="black")
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
         serial_width = draw.textlength(serial_text, font=font_serial)
         draw.text(((300 - serial_width) // 2, 200), serial_text, font=font_serial, fill="black")
-                #(300)mover lados      (2)centrado(200)Arriba abajo
+
         # 💾 Guardar imagen final
         img.save(filepath)
         print(f"QR generado y guardado: {filename}")
