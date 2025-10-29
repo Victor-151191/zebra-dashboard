@@ -87,8 +87,8 @@ for row in rows:
         draw.text((10, 5), f"ID: {id}", font=font_id, fill="black")
 
         # 🔒 Estado en esquina superior derecha
-        estado_width = draw.textlength(estado, font=font_estado)
-        draw.text((300 - estado_width - 10, 5), estado, font=font_estado, fill="black")
+        #estado_width = draw.textlength(estado, font=font_estado)
+        #draw.text((300 - estado_width - 10, 5), estado, font=font_estado, fill="black")
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
