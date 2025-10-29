@@ -48,7 +48,12 @@ for row in rows:
     # Normalizar datos
     serial = str(serial).strip().replace(" ", "_").replace("/", "-")
     host_name = str(host_name).strip()
-    parte_variable = host_name[-5:]  # Extrae últimos 5 caracteres
+
+    # Extraer parte después del primer "0"
+    index_0 = host_name.find("0")
+    parte_variable = host_name[index_0 + 1:] if index_0 != -1 else host_name
+    texto_host = f"Host: {parte_variable}"
+
     url = f"{base_url}{serial}.html"
     estado = "Protegida" if PROTECCION == "ON" else "Libre"
 
@@ -87,8 +92,8 @@ for row in rows:
         except:
             font_host = font_estado = font_serial = ImageFont.load_default()
 
-        # 🏷️ Host variable en esquina superior izquierda
-        draw.text((10, 5), parte_variable, font=font_host, fill="black")
+        # 🏷️ Host en esquina superior izquierda
+        draw.text((10, 5), texto_host, font=font_host, fill="black")
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
