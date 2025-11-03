@@ -1,6 +1,9 @@
 import subprocess, os
 from datetime import datetime
 
+import sys
+print("Python ejecutándose desde:", sys.executable)
+
 # Ejecuta un script Python y muestra su salida en tiempo real
 def ejecutar(script):
     print(f"\n Ejecutando {script}...")
