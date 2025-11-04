@@ -11,8 +11,8 @@ PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 db_path = "Inventario de impresora zebra.db"
 output_folder = "qr_codes"
 docs_folder = "docs"
-base_url = "https://victor151191.pythonanywhere.com/docs/"
-#base_url = "https://Victor-151191.github.io/zebra-dashboard/docs/"
+#base_url = "https://victor151191.pythonanywhere.com/docs/"
+base_url = "https://Victor-151191.github.io/zebra-dashboard/docs/"
 font_path = "arial.ttf"  # Fuente para los textos en la imagen
 
 # 📂 Crear carpeta de salida si no existe
