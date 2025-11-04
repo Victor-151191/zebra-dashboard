@@ -68,8 +68,10 @@ for row in rows:
     filename = f"{parte_variable}_{serial}_{estado.replace(' ', '_')}.png"
     filepath = os.path.join(output_folder, filename)
     if os.path.exists(filepath):
-        print(f"QR ya existe, no se regenera: {filename}")
-        continue
+        print(f"QR ya existe, se sobrescribe: {filename}")
+    #if os.path.exists(filepath):
+        #print(f"QR ya existe, no se regenera: {filename}")
+        #continue
 
     try:
         # 🧠 Generar código QR compacto
