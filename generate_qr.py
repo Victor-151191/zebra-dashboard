@@ -90,13 +90,16 @@ for row in rows:
         # 🖋️ Cargar fuentes con tamaños optimizados
         try:
             font_host = ImageFont.truetype(font_path, 30)       # Host Name
-            font_estado = ImageFont.truetype(font_path, 30)     # Estado
+            font_ID = ImageFont.truetype(font_path, 30)     # Estado
             font_serial = ImageFont.truetype(font_path, 30)     # Serial
         except:
-            font_host = font_estado = font_serial = ImageFont.load_default()
+            font_host = font_ID = font_serial = ImageFont.load_default()
 
         # 🏷️ Host en esquina superior izquierda
         draw.text((10, 5), texto_host, font=font_host, fill="black")
+
+        # 🏷️ ID en esquina superior Derecha
+        draw.text((5, 10), texto_ID, font=font_ID, fill="black")
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
