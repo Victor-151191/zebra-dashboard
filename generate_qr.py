@@ -98,8 +98,6 @@ for row in rows:
         # 🏷️ Host en esquina superior izquierda
         draw.text((10, 5), texto_host, font=font_host, fill="black")
 
-        # 🏷️ ID en esquina superior Derecha
-        draw.text((5, 10), texto_ID, font=font_ID, fill="black")
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
