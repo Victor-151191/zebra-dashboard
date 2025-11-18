@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar impresora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>🔍 Buscar impresora por serial</h2>
+    <form method="POST">
+        <input type="text" name="serial" placeholder="Ingresa el serial o últimos dígitos" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% for data in results %}
+    <div class="card">
+        <p><strong>ID:</strong> {{ data[0] }}</p>
+        <p><strong>Serial:</strong> {{ data[1] }}</p>
+        <p><strong>Host:</strong> {{ data[2] }}</p>
+        {% set fecha = data[3] %}
+        <p><strong>Fecha mantenimiento actual:</strong>
+            {% if fecha %}
+                {{ fecha.split('-')[2] }}/{{ fecha.split('-')[1] }}/{{ fecha.split('-')[0] }}
+            {% else %}
+                No registrada
+            {% endif %}
+        </p>
+        <!--<p><strong>Fecha mantenimiento actual:</strong> {{ data[3] or "No registrada" }}</p>-->
+        <form method="POST">
+            <input type="hidden" name="serial" value="{{ data[1] }}">
+            <input type="date" name="new_date" required>
+            <button type="submit">Actualizar fecha</button>
+        </form>
+    </div>
+    {% endfor %}
+</body>
+</html>
