@@ -100,7 +100,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
     <footer class="footer">
         <p>© 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
         <!-- Número de teléfono clickeable -->
-<a href="tel:+528123456789">Llámanos al +52 81 2345 6789</a>
+<a href="tel:8118211034">Llámanos al 81 18 21 1034</a>
     </footer>
 </body>
 </html>
