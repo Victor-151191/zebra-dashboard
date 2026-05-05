@@ -10,15 +10,15 @@ def limpiar_archivos_basura(cursor, output_folder, docs_folder):
     print("\n--- Iniciando limpieza de archivos huérfanos ---")
     
     # 1. Obtenemos la lista real de lo que DEBERÍA existir (según la DB)
-    cursor.execute('SELECT "Serial Number" FROM inventario_zebra')
+    cursor.execute('SELECT "ID" FROM inventario_zebra')
     # Normalizamos los seriales igual que cuando creas los archivos
-    seriales_validos = {str(row[0]).strip().replace(" ", "_").replace("/", "-") for row in cursor.fetchall()}
+    id_validos = {str(row[0]).strip().replace(" ", "_").replace("/", "-") for row in cursor.fetchall()}
 
     # 2. Limpiar la carpeta de QR
     for archivo in os.listdir(output_folder):
         # Extraemos el serial del nombre del archivo (ajusta según tu formato de nombre)
         # Si tu formato es "Host_Serial_Estado.png", buscamos si el serial está contenido
-        if any(s in archivo for s in seriales_validos):
+        if any(s in archivo for s in id_validos):
             continue # El archivo es válido, no lo borres
         
         # Si llegamos aquí, el archivo no pertenece a nadie en la DB actual
@@ -27,8 +27,8 @@ def limpiar_archivos_basura(cursor, output_folder, docs_folder):
 
     # 3. Limpiar la carpeta de DOCS (Fichas HTML)
     for archivo in os.listdir(docs_folder):
-        serial_archivo = archivo.replace(".html", "")
-        if serial_archivo not in seriales_validos:
+        id_archivo = archivo.replace(".html", "")
+        if id_archivo not in id_validos:
             # Ojo: asegúrate de no borrar el index.html si tienes uno
             if archivo == "index.html": continue 
             
