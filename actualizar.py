@@ -73,36 +73,12 @@ def publicar_git():
         print("No hay cambios nuevos para subir.")
 
 # Punto de entrada principal
-#if __name__ == "__main__":
-   # try:
-        #ejecutar("export_html.py")      # Genera fichas HTML
-        #ejecutar("generate_qr.py")      # Genera códigos QR
-        #resumen_final()                 # Muestra resumen
-        #publicar_git()                  # Sube cambios a GitHub
-   # except subprocess.CalledProcessError as e:
-        #print(f"Falló el script: {e}")
-
-# Punto de entrada principal
 if __name__ == "__main__":
     try:
         ejecutar("export_html.py")      # Genera fichas HTML
         ejecutar("generate_qr.py")      # Genera códigos QR
-        
-        # --- EL ARREGLO PARA QUE TU CÓDIGO FUNCIONE ---
-        import sqlite3 # Importamos la librería de base de datos aquí
-        
-        # 1. Creamos la conexión y el cursor de verdad
-        conexion = sqlite3.connect("Inventario de impresora zebra.db")
-        mi_cursor_real = conexion.cursor()
-        
-        # 2. Le pasamos el cursor (sin comillas) y los nombres reales de las carpetas
-        limpiar_archivos_basura(mi_cursor_real, "qr_codes", "docs")
-        
-        # 3. Cerramos la conexión para no dejarla abierta
-        conexion.close()
-        # -----------------------------------------------
-
         resumen_final()                 # Muestra resumen
         publicar_git()                  # Sube cambios a GitHub
-    except Exception as e:
+    except subprocess.CalledProcessError as e:
         print(f"Falló el script: {e}")
+
