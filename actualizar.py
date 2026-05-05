@@ -5,6 +5,7 @@ import os
 import sys
 print("Python ejecutándose desde:", sys.executable)
 
+#Limpieza de archivos no encontrados en la BdD
 def limpiar_archivos_basura(cursor, output_folder, docs_folder):
     print("\n--- Iniciando limpieza de archivos huérfanos ---")
     
@@ -27,7 +28,7 @@ def limpiar_archivos_basura(cursor, output_folder, docs_folder):
     # 3. Limpiar la carpeta de DOCS (Fichas HTML)
     for archivo in os.listdir(docs_folder):
         serial_archivo = archivo.replace(".html", "")
-        if serial_archivo not in seriales_activos:
+        if serial_archivo not in seriales_validos:
             # Ojo: asegúrate de no borrar el index.html si tienes uno
             if archivo == "index.html": continue 
             
