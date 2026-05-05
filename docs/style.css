@@ -1,109 +1,41 @@
-/* Foto de fondo */
-/* Foto de fondo */
+/* Fondo general con un degradado oscuro y elegante */
 body {
-background-image: url("jabil-office.jpg");
-background-size: cover;
-background-position: center;
-background-attachment: fixed;
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
+    background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+    background-attachment: fixed; /* Mantiene el fondo quieto al hacer scroll */
+    color: #ffffff;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    min-height: 100vh;
 }
 
-/* Ficha con efecto de vidrio */
-.ficha {
-background: rgba(255, 255, 255, 0.15);
-border-radius: 12px;
-padding: 30px;
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
-border: 1px solid rgba(255, 255, 255, 0.3);
-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-margin: 80px auto;
-max-width: 800px; 
-width: fit-content;
-font-family: 'Segoe UI', sans-serif;
-color: #faf9f9;
+/* El contenedor ahora tiene un fondo tipo "cristal" para que resalte */
+.dashboard-container {
+    background-color: rgba(30, 30, 38, 0.85); /* Un poco de transparencia */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque detrás del panel */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil para dar relieve */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    max-width: 1100px;
+    margin: auto;
 }
 
-/* Título dentro de la ficha */
-.ficha h2 {
-text-align: center;
-margin-bottom: 20px;
-color: #fff;
+/* Mejoramos el contraste de los encabezados de la tabla */
+.zebra-table thead tr {
+    background-color: #252530;
+    color: #00d4ff; /* Un color cyan para que los títulos resalten */
+    border-bottom: 2px solid #00d4ff;
 }
 
-/* Tabla dentro de la ficha */
-.ficha table {
-width: 100%;
-border-collapse: collapse;
-margin-top: 10px;
+/* Estilo para que el texto de ID y Serial sea más legible */
+.text-muted { 
+    color: #a0a0a0 !important; 
+    font-weight: 500;
 }
 
-.ficha td, .ficha th {
-padding: 10px;
-border: 1px solid rgba(255, 255, 255, 0.2);
-background: rgba(255, 255, 255, 0.05);
-color: #0f0f0f;
-font-size: 16px;
-}
-
-.ficha td.label {
-font-weight: bold;
-width: 40%;
-}
-
-/* Fecha de actualización */
-.ficha .actualizado {
-text-align: right;
-font-size: 14px;
-margin-top: 20px;
-color: #fff;
-}
-
-/* Banner de estado (🔒 / 🔓) */
-div[style*="position:fixed"] {
-font-family: 'Segoe UI', sans-serif;
-background-color: #f0f0f0;
-color: #333;
-box-shadow: 0 0 5px rgba(0,0,0,0.1);
-padding: 5px 10px;
-border-radius: 5px;
-font-weight: bold;
-}
-
-/* Footer */
-.footer {
-text-align: center;
-font-size: 13px;
-color: #fffefe;
-margin-top: 40px;
-}
-
-.footer a {
-color: #fdfdfd;
-text-decoration: underline;
-}
-
-/* 📱 Optimización móvil */
-@media screen and (max-width: 600px) {
-.ficha {
-padding: 20px;
-font-size: 18px;
-width: 95%;
-margin: 20px auto;
-}
-
-.ficha h2 {
-font-size: 22px;
-}
-
-.ficha td, .ficha th {
-font-size: 16px;
-padding: 8px;
-}
-
-.actualizado {
-font-size: 13px;
-}
+.serial-text { 
+    color: #00d4ff; 
+    font-family: 'Courier New', Courier, monospace; /* Fuente tipo código */
+    font-size: 0.95em;
 }

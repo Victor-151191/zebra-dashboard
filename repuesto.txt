@@ -1,3 +1,4 @@
+EXPORT_HTML
 # Crea página HTML para cada impresora Zebra
 import sqlite3, os, sys, shutil
 from datetime import datetime
@@ -137,3 +138,116 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
 if __name__ == "__main__":
     validar_base()
     generar_fichas_html()
+
+
+
+CSS
+/* Foto de fondo */
+/* Foto de fondo */
+body {
+background-image: url("jabil-office.jpg");
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+}
+
+/* Ficha con efecto de vidrio */
+.ficha {
+background: rgba(255, 255, 255, 0.15);
+border-radius: 12px;
+padding: 30px;
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+margin: 80px auto;
+max-width: 800px; 
+width: fit-content;
+font-family: 'Segoe UI', sans-serif;
+color: #faf9f9;
+}
+
+/* Título dentro de la ficha */
+.ficha h2 {
+text-align: center;
+margin-bottom: 20px;
+color: #fff;
+}
+
+/* Tabla dentro de la ficha */
+.ficha table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 10px;
+}
+
+.ficha td, .ficha th {
+padding: 10px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+background: rgba(255, 255, 255, 0.05);
+color: #0f0f0f;
+font-size: 16px;
+}
+
+.ficha td.label {
+font-weight: bold;
+width: 40%;
+}
+
+/* Fecha de actualización */
+.ficha .actualizado {
+text-align: right;
+font-size: 14px;
+margin-top: 20px;
+color: #fff;
+}
+
+/* Banner de estado (🔒 / 🔓) */
+div[style*="position:fixed"] {
+font-family: 'Segoe UI', sans-serif;
+background-color: #f0f0f0;
+color: #333;
+box-shadow: 0 0 5px rgba(0,0,0,0.1);
+padding: 5px 10px;
+border-radius: 5px;
+font-weight: bold;
+}
+
+/* Footer */
+.footer {
+text-align: center;
+font-size: 13px;
+color: #fffefe;
+margin-top: 40px;
+}
+
+.footer a {
+color: #fdfdfd;
+text-decoration: underline;
+}
+
+/* 📱 Optimización móvil */
+@media screen and (max-width: 600px) {
+.ficha {
+padding: 20px;
+font-size: 18px;
+width: 95%;
+margin: 20px auto;
+}
+
+.ficha h2 {
+font-size: 22px;
+}
+
+.ficha td, .ficha th {
+font-size: 16px;
+padding: 8px;
+}
+
+.actualizado {
+font-size: 13px;
+}
+}
