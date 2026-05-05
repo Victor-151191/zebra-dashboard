@@ -1,39 +1,8 @@
 import subprocess, os
 from datetime import datetime
-import os
 
 import sys
 print("Python ejecutándose desde:", sys.executable)
-
-#Limpieza de archivos no encontrados en la BdD
-def limpiar_archivos_basura(cursor, output_folder, docs_folder):
-    print("\n--- Iniciando limpieza de archivos huérfanos ---")
-    
-    # 1. Obtenemos la lista real de lo que DEBERÍA existir (según la DB)
-    cursor.execute('SELECT "Serial" FROM inventario_zebra')
-    # Normalizamos los seriales igual que cuando creas los archivos
-    Serial_validos = {str(row[0]).strip().replace(" ", "_").replace("/", "-") for row in cursor.fetchall()}
-
-    # 2. Limpiar la carpeta de QR
-    for archivo in os.listdir(output_folder):
-        # Extraemos el serial del nombre del archivo (ajusta según tu formato de nombre)
-        # Si tu formato es "Host_Serial_Estado.png", buscamos si el serial está contenido
-        if any(s in archivo for s in Serial_validos):
-            continue # El archivo es válido, no lo borres
-        
-        # Si llegamos aquí, el archivo no pertenece a nadie en la DB actual
-        os.remove(os.path.join(output_folder, archivo))
-        print(f"🗑️ QR eliminado (ya no existe en DB): {archivo}")
-
-    # 3. Limpiar la carpeta de DOCS (Fichas HTML)
-    for archivo in os.listdir(docs_folder):
-        Serial_validos_archivo = archivo.replace(".html", "")
-        if Serial_validos_archivo not in Serial_validos:
-            # Ojo: asegúrate de no borrar el index.html si tienes uno
-            if archivo == "index.html": continue 
-            
-            os.remove(os.path.join(docs_folder, archivo))
-            print(f"🗑️ Ficha eliminada (ya no existe en DB): {archivo}")
 
 
 # Ejecuta un script Python y muestra su salida en tiempo real
