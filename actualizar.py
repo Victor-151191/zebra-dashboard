@@ -27,7 +27,9 @@ def limpiar_archivos_basura(output_folder, docs_folder):
         # 3. Limpiar la carpeta de QR
         if os.path.exists(output_folder):
             for archivo in os.listdir(output_folder):
-                if archivo.startswith('.'): continue
+                # FILTRO DE SEGURIDAD: Ignorar todo lo que no sea una imagen .png
+                if not archivo.lower().endswith('.png'): continue
+                
                 # Si el archivo NO contiene ningún ID o Serial válido, lo borramos
                 if not any(p in archivo for p in permitidos if p):
                     os.remove(os.path.join(output_folder, archivo))
@@ -36,7 +38,10 @@ def limpiar_archivos_basura(output_folder, docs_folder):
         # 4. Limpiar la carpeta de DOCS (Fichas HTML)
         if os.path.exists(docs_folder):
             for archivo in os.listdir(docs_folder):
-                if archivo.startswith('.') or archivo == "index.html": continue
+                # FILTRO DE SEGURIDAD: Ignorar carpetas, CSS, JPGs... solo leer .html
+                if not archivo.lower().endswith('.html'): continue
+                if archivo == "index.html": continue
+                
                 nombre_sin_ext = archivo.replace(".html", "")
                 
                 # Aquí verificamos exactitud
@@ -86,7 +91,7 @@ if __name__ == "__main__":
         ejecutar("export_html.py")       # 1. Genera fichas HTML
         ejecutar("generate_qr.py")       # 2. Genera códigos QR
         
-        # 👇 ESTO FALTABA: Mandar a llamar a la función de limpieza
+        # 👇 Mandar a llamar a la función de limpieza
         limpiar_archivos_basura("qr_codes", "docs") 
         
         resumen_final()                  # 4. Muestra resumen
