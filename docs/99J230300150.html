@@ -1,4 +1,17 @@
-<!DOCTYPE html>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+const clave = prompt("Ingrese la contraseña para acceder a esta ficha:");
+if (!clave || clave.trim() !== "Zebra2025") {
+    document.body.innerHTML = `
+    <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
+        <img src="qualtec.ico" width="80" />
+        <h2 style="color:#B22222;">Acceso denegado</h2>
+        <p style="font-size:20px; color:black; margin-top:40px;">Esta ficha técnica está protegida.</p>
+        <button onclick="location.reload()">Reintentar</button>
+    </div>`;
+}
+});
+</script><!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +20,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div style="position:fixed; top:10px; right:10px; background:#eee; padding:5px 10px; border-radius:5px;">Libre</div>
+    <div style="position:fixed; top:10px; right:10px; background:#eee; padding:5px 10px; border-radius:5px;">Protegida</div>
     <div class="ficha">
         <h2>Ficha Técnica Zebra</h2>
         <table><tr><td class='label'>ID</td><td>64</td></tr>
@@ -22,7 +35,7 @@
 <tr><td class='label'>Ribbon Part Number</td><td>None</td></tr>
 <tr><td class='label'>Fecha Mtto</td><td>13/ABRIL/2026</td></tr>
 <tr><td class='label'>Status</td><td>ACTIVA</td></tr></table>
-        <p class="actualizado">Actualizado: 2026-05-05 16:30</p>
+        <p class="actualizado">Actualizado: 2026-05-05 16:32</p>
         <button onclick="window.location='index.html'" style="margin-top:20px;">Volver al Dashboard</button>
     </div>
 </body>
