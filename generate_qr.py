@@ -1,6 +1,6 @@
 import sqlite3, qrcode, os
 from PIL import Image, ImageDraw, ImageFont
-from pyzbar.pyzbar import decode
+import cv2
 from dotenv import load_dotenv
 
 # 🔧 Cargar configuración desde archivo .env
@@ -98,11 +98,10 @@ for row in rows:
         # 🏷️ Host en esquina superior izquierda
         draw.text((10, 5), texto_host, font=font_host, fill="black")
 
-                # 🆔 ID en esquina superior derecha
+        # 🆔 ID en esquina superior derecha
         texto_id = f"ID: {id}"
         ancho_id = draw.textlength(texto_id, font=font_ID)
         draw.text((300 - ancho_id - 10, 5), texto_id, font=font_ID, fill="black")
-
 
         # 🔢 Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
@@ -114,11 +113,13 @@ for row in rows:
         print(f"QR generado y guardado: {filename}")
         total_qr += 1
 
-        # 🔍 Verificar contenido del QR
-        decoded = decode(Image.open(filepath))
-        if decoded:
-            contenido_qr = decoded[0].data.decode("utf-8")
-            print(f"Contenido real del QR: {contenido_qr}")
+        # 🔍 Verificar contenido del QR con OpenCV
+        img_cv = cv2.imread(filepath)
+        lector = cv2.QRCodeDetector()
+        texto_qr, delimitador, qr_recto = lector.detectAndDecode(img_cv)
+
+        if texto_qr:
+            print(f"Contenido real del QR: {texto_qr}")
         else:
             print("No se pudo leer el contenido del QR generado.")
 
