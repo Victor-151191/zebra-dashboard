@@ -1,6 +1,6 @@
-# Crea página HTML para cada impresora Zebra
+# Crea página HTML para cada impresora Zebra y un Dashboard principal
 import sqlite3, os, sys, shutil
-from datetime import datetime
+from datetime import datetime # Importación corregida
 from dotenv import load_dotenv
 
 # Configuración de rutas y nombres
@@ -9,7 +9,6 @@ TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "log.txt"
 
-# Función para registrar mensajes en log.txt y mostrar en consola
 def log(mensaje):
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
     mensaje_final = f"[{fecha}] {mensaje}"
@@ -17,33 +16,114 @@ def log(mensaje):
         f.write(mensaje_final + "\n")
     print(mensaje_final)
 
-# Verifica que la base y la tabla existan
 def validar_base():
     if not os.path.exists(DB_PATH):
         log(f"Base de datos no encontrada: {DB_PATH}")
         sys.exit(1)
-
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
     tablas = [t[0] for t in cursor.fetchall()]
     conn.close()
-
     if TABLE_NAME not in tablas:
         log(f"Tabla '{TABLE_NAME}' no encontrada en la base.")
         sys.exit(1)
 
-# Genera fichas HTML para cada registro con serial válido
+# --- NUEVA FUNCIÓN PARA EL DASHBOARD PRINCIPAL ---
+def generar_dashboard_index(filas, columnas):
+    log("Generando Dashboard principal (index.html)...")
+    
+    # Contadores para el encabezado
+    total = len(filas)
+    # Buscamos el índice de la columna 'Status'
+    idx_status = columnas.index("Status") if "Status" in columnas else -1
+    activas = sum(1 for f in filas if str(f[idx_status]).upper() == "ACTIVA") if idx_status != -1 else total
+
+    html_content = """<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Zebra Fleet Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="brand">Zebra Fleet Manager</div>
+            <div class="stats">
+                <div class="stat-item"><span>TOTAL IMPRESORAS</span><br><strong>{total}</strong></div>
+                <div class="stat-item"><span>ACTIVAS</span><br><strong>{activas}</strong></div>
+                <div class="stat-item"><span>RESULTADOS</span><br><strong>{total}</strong></div>
+            </div>
+        </header>
+        <div class="table-container">
+            <table class="zebra-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Modelo</th>
+                        <th>Serial</th>
+                        <th>Ubicación</th>
+                        <th>Conexión</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>""".format(total=total, activas=activas)
+
+    # Índices de columnas necesarios
+    idx_id = columnas.index("ID")
+    idx_mod = columnas.index("Modelo")
+    idx_ser = columnas.index("Serial Number")
+    idx_ubi = columnas.index("Ubicación")
+    idx_con = columnas.index("Conección")
+
+    for f in filas:
+        serial_raw = str(f[idx_ser]).strip()
+        serial_url = serial_raw.replace(" ", "_").replace("/", "-")
+        conexion = str(f[idx_con]).upper()
+        estado = str(f[idx_status]).upper() if idx_status != -1 else "N/A"
+
+        # Lógica de iconos e badges
+        icon_conn = '<i class="fas fa-network-wired"></i> RED'
+        if "WIFI" in conexion: icon_conn = '<i class="fas fa-wifi"></i> WIFI'
+        elif "USB" in conexion: icon_conn = '<i class="fas fa-microchip"></i> USB'
+
+        status_class = "status-activa"
+        if "REPARACION" in estado: status_class = "status-reparacion"
+        elif "INACTIVA" in estado: status_class = "status-inactiva"
+
+        html_content += f"""
+                    <tr onclick="window.location='{serial_url}.html';" style="cursor:pointer;">
+                        <td class="text-muted">#{f[idx_id]}</td>
+                        <td><strong>{f[idx_mod]}</strong></td>
+                        <td class="serial-text">{serial_raw}</td>
+                        <td>{f[idx_ubi]}</td>
+                        <td>{icon_conn}</td>
+                        <td><span class="status-badge {status_class}">{estado}</span></td>
+                    </tr>"""
+
+    html_content += """
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>"""
+
+    with open(os.path.join(OUTPUT_FOLDER, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html_content)
+
 def generar_fichas_html():
-    load_dotenv(override=True)  # Recarga .env en tiempo real
+    load_dotenv(override=True)
     PASSWORD = os.getenv("QR_PASSWORD", "QR_PASSWORD")
     PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 
-    # Limpia carpeta de fichas anteriores
+    # Limpieza inteligente: solo borra archivos HTML de seriales, respeta el resto
+    if not os.path.exists(OUTPUT_FOLDER): os.makedirs(OUTPUT_FOLDER)
     for archivo in os.listdir(OUTPUT_FOLDER):
-        ruta = os.path.join(OUTPUT_FOLDER, archivo)
-    if archivo.endswith(".html"):
-        os.remove(ruta)
+        if archivo.endswith(".html") and archivo != "index.html":
+            os.remove(os.path.join(OUTPUT_FOLDER, archivo))
 
     log("Conectando a la base de datos...")
     conn = sqlite3.connect(DB_PATH)
@@ -52,9 +132,10 @@ def generar_fichas_html():
     rows = cursor.fetchall()
     columns = [desc[0] for desc in cursor.description]
     conn.close()
+    
     log(f"Registros encontrados: {len(rows)}")
 
-    # Bloque de protección con contraseña
+    # Bloque de protección
     password_block = f'''<script>
 window.addEventListener("DOMContentLoaded", function() {{
 const clave = prompt("Ingrese la contraseña para acceder a esta ficha:");
@@ -63,77 +144,55 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
     <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <img src="qualtec.ico" width="80" />
         <h2 style="color:#B22222;">Acceso denegado</h2>
-        <p style="font-size:20px; color:black; margin-top:40px;">Esta ficha técnica está protegida. Verifique la contraseña o contacte a soporte IT.</p>
-        <button onclick="location.reload()" style="margin-top:20px; padding:10px 20px;">Reintentar</button>
-        <p style="font-size:12px; color:gray; margin-top:40px;">Sistema desarrollado por Víctor Manuel Salinas González</p>
-    </div>
-    `;
+        <p style="font-size:20px; color:black; margin-top:40px;">Esta ficha técnica está protegida.</p>
+        <button onclick="location.reload()">Reintentar</button>
+    </div>`;
 }}
 }});
 </script>'''
 
-    # Plantilla HTML base con banner dinámico
     template = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.2, maximum-scale=1.5, user-scalable=no">
-    <title>Ficha Técnica - {serial}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.2">
+    <title>Ficha - {serial}</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="qualtec.ico" type="image/x-icon">
 </head>
 <body>
-    <div style="position:fixed; top:10px; right:10px; 
-                background:#eee; padding:5px 10px; 
-                border-radius:5px; font-weight:bold;">
-        {banner}
-    </div>
-
+    <div style="position:fixed; top:10px; right:10px; background:#eee; padding:5px 10px; border-radius:5px;">{banner}</div>
     <div class="ficha">
         <h2>Ficha Técnica Zebra</h2>
-        <table>
-            {rows}
-        </table>
-        <p class="actualizado">Última actualización: {fecha}</p>
+        <table>{rows}</table>
+        <p class="actualizado">Actualizado: {fecha}</p>
+        <button onclick="window.location='index.html'" style="margin-top:20px;">Volver al Dashboard</button>
     </div>
-
-    <footer class="footer">
-        <p>© 2025 · Ficha técnica desarrollada por Víctor Manuel Salinas González · 
-        <!-- Número de teléfono clickeable -->
-<a href="tel:8118211034">Soporte IT 81 18 21 1034</a>
-    </footer>
 </body>
-</html>
-"""
+</html>"""
 
-    total = 0
+    total_fichas = 0
     for row in rows:
         data = dict(zip(columns, row))
         serial = data.get("Serial Number")
-
-        if not serial or str(serial).strip().upper() == "NULL":
-            log(f"Fila ignorada por serial vacío: {data}")
-            continue
+        if not serial or str(serial).strip().upper() == "NULL": continue
 
         html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
         fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
         banner = "Protegida" if PROTECCION == "ON" else "Libre"
+        
+        cuerpo = (password_block if PROTECCION == "ON" else "") + template.format(serial=serial, rows=html_rows, fecha=fecha_actual, banner=banner)
 
-        # Genera HTML con o sin protección según .env
-        if PROTECCION == "ON":
-            html = password_block + template.format(serial=serial, rows=html_rows, fecha=fecha_actual, banner=banner)
-        else:
-            html = template.format(serial=serial, rows=html_rows, fecha=fecha_actual, banner=banner)
+        # Nombre de archivo normalizado
+        nombre_archivo = str(serial).strip().replace(" ", "_").replace("/", "-")
+        with open(os.path.join(OUTPUT_FOLDER, f"{nombre_archivo}.html"), "w", encoding="utf-8") as f:
+            f.write(cuerpo)
+        total_fichas += 1
 
-        with open(os.path.join(OUTPUT_FOLDER, f"{serial}.html"), "w", encoding="utf-8") as f:
-            f.write(html)
+    # DESPUÉS DE GENERAR TODAS LAS FICHAS, GENERAMOS EL INDEX
+    generar_dashboard_index(rows, columns)
+    
+    log(f"Proceso terminado. Fichas: {total_fichas} + Dashboard generado.")
 
-        log(f"Ficha generada: {serial}.html ({banner})")
-        total += 1
-
-    log(f"Total de fichas generadas: {total}")
-
-# Punto de entrada
 if __name__ == "__main__":
     validar_base()
     generar_fichas_html()
