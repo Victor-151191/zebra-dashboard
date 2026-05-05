@@ -33,7 +33,7 @@ def limpiar_archivos_basura(output_folder, docs_folder):
                 # Si el archivo NO contiene ningún ID o Serial válido, lo borramos
                 if not any(p in archivo for p in permitidos if p):
                     os.remove(os.path.join(output_folder, archivo))
-                    print(f"🗑️ QR eliminado (ya no existe en DB): {archivo}")
+                    print(f"QR eliminado (ya no existe en DB): {archivo}")
 
         # 4. Limpiar la carpeta de DOCS (Fichas HTML)
         if os.path.exists(docs_folder):
@@ -47,10 +47,10 @@ def limpiar_archivos_basura(output_folder, docs_folder):
                 # Aquí verificamos exactitud
                 if nombre_sin_ext not in permitidos:
                     os.remove(os.path.join(docs_folder, archivo))
-                    print(f"🗑️ Ficha eliminada (ya no existe en DB): {archivo}")
+                    print(f"Ficha eliminada (ya no existe en DB): {archivo}")
 
     except Exception as e:
-        print(f"❌ Error durante la limpieza: {e}")
+        print(f"Error durante la limpieza: {e}")
 
 # Ejecuta un script Python y muestra su salida en tiempo real
 def ejecutar(script):
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         ejecutar("export_html.py")       # 1. Genera fichas HTML
         ejecutar("generate_qr.py")       # 2. Genera códigos QR
         
-        # 👇 Mandar a llamar a la función de limpieza
+        # Mandar a llamar a la función de limpieza
         limpiar_archivos_basura("qr_codes", "docs") 
         
         resumen_final()                  # 4. Muestra resumen
