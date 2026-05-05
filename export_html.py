@@ -1,6 +1,6 @@
 # Crea página HTML para cada impresora Zebra y un Dashboard principal
 import sqlite3, os, sys, shutil
-from datetime import datetime # Importación corregida
+from datetime import datetime
 from dotenv import load_dotenv
 
 # Configuración de rutas y nombres
@@ -29,21 +29,45 @@ def validar_base():
         log(f"Tabla '{TABLE_NAME}' no encontrada en la base.")
         sys.exit(1)
 
-# --- NUEVA FUNCIÓN PARA EL DASHBOARD PRINCIPAL ---
+# --- ESTA FUNCIÓN DEBE ESTAR AFUERA, AL MISMO NIVEL QUE LAS DEMÁS ---
 def generar_dashboard_index(filas, columnas):
-    log("Generando Dashboard principal (index.html)...")
+    log("Generando Dashboard Protegido (Fichas Libres)...")
     
+    load_dotenv(override=True)
+    # Contraseña exclusiva para el Dashboard
+    DASH_PASS = os.getenv("DASHBOARD_PASSWORD", "admin123") 
+
     # Contadores para el encabezado
     total = len(filas)
-    # Buscamos el índice de la columna 'Status'
     idx_status = columnas.index("Status") if "Status" in columnas else -1
     activas = sum(1 for f in filas if str(f[idx_status]).upper() == "ACTIVA") if idx_status != -1 else total
 
-    html_content = """<!DOCTYPE html>
+    # Bloque de seguridad EXCLUSIVO para el Dashboard
+    password_script = f'''
+    <script>
+    (function() {{
+        const clave = prompt("🛡️ ACCESO RESTRINGIDO\\nIngrese clave de Administrador para ver el inventario global:");
+        if (!clave || clave.trim() !== "{DASH_PASS}") {{
+            document.documentElement.innerHTML = `
+            <body style="background:#121212; color:white; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
+                <div style="background:#1e1e26; padding:40px; border-radius:15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <h1 style="color:#ff4b2b; font-size:40px;">⚠️</h1>
+                    <h2 style="color:white;">Dashboard Bloqueado</h2>
+                    <p style="color:#888;">Se requiere nivel de Administrador para ver esta sección.</p>
+                    <button onclick="location.href='javascript:history.back()'" style="padding:10px 20px; background:#444; color:white; border:none; border-radius:5px; cursor:pointer; margin-right:10px;">Volver</button>
+                    <button onclick="location.reload()" style="padding:10px 20px; background:#00d4ff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Reintentar</button>
+                </div>
+            </body>`;
+        }}
+    }})();
+    </script>'''
+
+    html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Zebra Fleet Manager</title>
+    {password_script}
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,9 +93,8 @@ def generar_dashboard_index(filas, columnas):
                         <th>Estado</th>
                     </tr>
                 </thead>
-                <tbody>""".format(total=total, activas=activas)
+                <tbody>"""
 
-    # Índices de columnas necesarios
     idx_id = columnas.index("ID")
     idx_mod = columnas.index("Modelo")
     idx_ser = columnas.index("Serial Number")
@@ -84,7 +107,6 @@ def generar_dashboard_index(filas, columnas):
         conexion = str(f[idx_con]).upper()
         estado = str(f[idx_status]).upper() if idx_status != -1 else "N/A"
 
-        # Lógica de iconos e badges
         icon_conn = '<i class="fas fa-network-wired"></i> RED'
         if "WIFI" in conexion: icon_conn = '<i class="fas fa-wifi"></i> WIFI'
         elif "USB" in conexion: icon_conn = '<i class="fas fa-microchip"></i> USB'
@@ -119,7 +141,6 @@ def generar_fichas_html():
     PASSWORD = os.getenv("QR_PASSWORD", "QR_PASSWORD")
     PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 
-    # Limpieza inteligente: solo borra archivos HTML de seriales, respeta el resto
     if not os.path.exists(OUTPUT_FOLDER): os.makedirs(OUTPUT_FOLDER)
     for archivo in os.listdir(OUTPUT_FOLDER):
         if archivo.endswith(".html") and archivo != "index.html":
@@ -135,16 +156,13 @@ def generar_fichas_html():
     
     log(f"Registros encontrados: {len(rows)}")
 
-    # Bloque de protección
+    # Bloque de protección para FICHAS (solo si PROTECCION == "ON")
     password_block = f'''<script>
 window.addEventListener("DOMContentLoaded", function() {{
 const clave = prompt("Ingrese la contraseña para acceder a esta ficha:");
 if (!clave || clave.trim() !== "{PASSWORD}") {{
-    document.body.innerHTML = `
-    <div style="text-align:center; font-family:sans-serif; margin-top:100px;">
-        <img src="qualtec.ico" width="80" />
+    document.body.innerHTML = `<div style="text-align:center; font-family:sans-serif; margin-top:100px;">
         <h2 style="color:#B22222;">Acceso denegado</h2>
-        <p style="font-size:20px; color:black; margin-top:40px;">Esta ficha técnica está protegida.</p>
         <button onclick="location.reload()">Reintentar</button>
     </div>`;
 }}
@@ -182,15 +200,12 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
         
         cuerpo = (password_block if PROTECCION == "ON" else "") + template.format(serial=serial, rows=html_rows, fecha=fecha_actual, banner=banner)
 
-        # Nombre de archivo normalizado
         nombre_archivo = str(serial).strip().replace(" ", "_").replace("/", "-")
         with open(os.path.join(OUTPUT_FOLDER, f"{nombre_archivo}.html"), "w", encoding="utf-8") as f:
             f.write(cuerpo)
         total_fichas += 1
 
-    # DESPUÉS DE GENERAR TODAS LAS FICHAS, GENERAMOS EL INDEX
     generar_dashboard_index(rows, columns)
-    
     log(f"Proceso terminado. Fichas: {total_fichas} + Dashboard generado.")
 
 if __name__ == "__main__":

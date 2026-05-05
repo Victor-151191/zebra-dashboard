@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Zebra Fleet Manager</title>
+    
+    <script>
+    (function() {
+        const clave = prompt("🛡️ ACCESO RESTRINGIDO\nIngrese clave de Administrador para ver el inventario global:");
+        if (!clave || clave.trim() !== "Jabil2026") {
+            document.documentElement.innerHTML = `
+            <body style="background:#121212; color:white; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
+                <div style="background:#1e1e26; padding:40px; border-radius:15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <h1 style="color:#ff4b2b; font-size:40px;">⚠️</h1>
+                    <h2 style="color:white;">Dashboard Bloqueado</h2>
+                    <p style="color:#888;">Se requiere nivel de Administrador para ver esta sección.</p>
+                    <button onclick="location.href='javascript:history.back()'" style="padding:10px 20px; background:#444; color:white; border:none; border-radius:5px; cursor:pointer; margin-right:10px;">Volver</button>
+                    <button onclick="location.reload()" style="padding:10px 20px; background:#00d4ff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Reintentar</button>
+                </div>
+            </body>`;
+        }
+    })();
+    </script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>

@@ -251,3 +251,13 @@ padding: 8px;
 font-size: 13px;
 }
 }
+
+# --- NUEVA FUNCIÓN PARA EL DASHBOARD PRINCIPAL ---
+#def generar_dashboard_index(filas, columnas):
+    #log("Generando Dashboard principal (index.html)...")
+    
+    # Contadores para el encabezado
+    #total = len(filas)
+    # Buscamos el índice de la columna 'Status'
+    #idx_status = columnas.index("Status") if "Status" in columnas else -1
+    #activas = sum(1 for f in filas if str(f[idx_status]).upper() == "ACTIVA") if idx_status != -1 else total
