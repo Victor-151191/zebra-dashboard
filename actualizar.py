@@ -40,7 +40,7 @@ def limpiar_archivos_basura(output_folder, docs_folder):
                 # Si el archivo tiene un serial que YA NO EXISTE en la base de datos, se borra
                 if not es_valido:
                     os.remove(os.path.join(output_folder, archivo))
-                    print(f"🗑️ QR eliminado (Su ID/Serial ya no existe en DB): {archivo}")
+                    print(f"QR eliminado (Su ID/Serial ya no existe en DB): {archivo}")
 
         # 4. Limpiar la carpeta de DOCS (Fichas HTML)
         if os.path.exists(docs_folder):
@@ -55,7 +55,7 @@ def limpiar_archivos_basura(output_folder, docs_folder):
                 # Si este serial YA NO EXISTE en la base de datos, a la basura
                 if nombre_sin_ext not in seriales_activos:
                     os.remove(os.path.join(docs_folder, archivo))
-                    print(f"🗑️ Ficha eliminada (Su ID/Serial ya no existe en DB): {archivo}")
+                    print(f"Ficha eliminada (Su ID/Serial ya no existe en DB): {archivo}")
 
     except Exception as e:
         print(f"❌ Error durante la limpieza: {e}")
