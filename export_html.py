@@ -124,6 +124,14 @@ def generar_dashboard_index(filas, columnas):
                         <td>{icon_conn}</td>
                         <td><span class="status-badge {status_class}">{estado}</span></td>
                     </tr>"""
+     #Boton de descarga               
+    html_content += """
+        <div class="actions-bar" style="margin-bottom: 20px; text-align: right;">
+            <button onclick="descargarCSV()" class="btn-download">
+                <i class="fas fa-file-csv"></i> Descargar Inventario (Excel)
+            </button>
+        </div>
+    """
 
     html_content += """
                 </tbody>
