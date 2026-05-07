@@ -194,21 +194,21 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
         <button onclick="window.location='index.html'" style="margin-top:20px;">Volver al Dashboard</button>
     </div>
     
-    html_content += 
+    html_content +=
     <script>
-    function descargarCSV() {
+    function descargarCSV() {{
         const tabla = document.querySelector(".zebra-table");
         let csv = [];
         const filas = tabla.querySelectorAll("tr");
         
-        for (const fila of filas) {
+        for (const fila of filas) {{
             const celdas = fila.querySelectorAll("th, td");
-            const datosFila = Array.from(celdas).map(celda => `"${celda.innerText.strip()}"`);
+            const datosFila = Array.from(celdas).map(celda => `"${{celda.innerText.trim()}}"`);
             csv.push(datosFila.join(","));
-        }
+        }}
         
-        const contenidoCSV = csv.join("\\n");
-        const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+        const contenidoCSV = csv.join("\\\\n");
+        const blob = new Blob([contenidoCSV], {{ type: 'text/csv;charset=utf-8;' }});
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         
@@ -218,7 +218,7 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
+        }}
     </script>
     
     </body>
