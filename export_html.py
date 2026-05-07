@@ -128,7 +128,7 @@ def generar_dashboard_index(filas, columnas):
         </div>
     </div>
 
-    <script>
+   <script>
     function descargarCSV() {
         try {
             const tabla = document.querySelector(".zebra-table");
@@ -138,14 +138,19 @@ def generar_dashboard_index(filas, columnas):
             filas.forEach(fila => {
                 const celdas = fila.querySelectorAll("th, td");
                 const datosFila = Array.from(celdas).map(celda => {
+                    // Limpiamos espacios y comillas
                     let texto = celda.innerText.replace(/"/g, '""').trim();
                     return `"${texto}"`;
                 });
-                csv.push(datosFila.join(","));
+                // USAMOS PUNTO Y COMA (;) para que Excel en español lo separe bien
+                csv.push(datosFila.join(";")); 
             });
             
             const contenidoCSV = csv.join("\\n");
-            const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+            
+            // EL TRUCO: \ufeff es el "BOM" para que Excel vea bien los acentos
+            const blob = new Blob(["\\ufeff" + contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+            
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -154,7 +159,7 @@ def generar_dashboard_index(filas, columnas):
             link.click();
             document.body.removeChild(link);
         } catch (err) {
-            alert("Error al generar el Excel");
+            alert("Error al generar el archivo");
         }
     }
     </script>
