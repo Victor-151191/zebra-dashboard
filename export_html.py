@@ -132,7 +132,7 @@ def generar_dashboard_index(filas, columnas):
             </button>
         </div>
     """
-
+    #Tabla de inventario
     html_content += """
                 </tbody>
             </table>
@@ -193,6 +193,33 @@ if (!clave || clave.trim() !== "{PASSWORD}") {{
         <p class="actualizado">Actualizado: {fecha}</p>
         <button onclick="window.location='index.html'" style="margin-top:20px;">Volver al Dashboard</button>
     </div>
+    
+    <script>
+    function descargarCSV() {
+        const tabla = document.querySelector(".zebra-table");
+        let csv = [];
+        const filas = tabla.querySelectorAll("tr");
+        
+        for (const fila of filas) {
+            const celdas = fila.querySelectorAll("th, td");
+            const datosFila = Array.from(celdas).map(celda => `"${celda.innerText.strip()}"`);
+            csv.push(datosFila.join(","));
+        }
+        
+        const contenidoCSV = csv.join("\\n");
+        const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Inventario_Zebra_Jabil.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    </script>
+    
 </body>
 </html>"""
 
