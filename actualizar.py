@@ -58,7 +58,7 @@ def limpiar_archivos_basura(output_folder, docs_folder):
                     print(f"Ficha eliminada (Su ID/Serial ya no existe en DB): {archivo}")
 
     except Exception as e:
-        print(f"❌ Error durante la limpieza: {e}")
+        print(f"Error durante la limpieza: {e}")
 
 # Ejecuta un script Python y muestra su salida en tiempo real
 def ejecutar(script):

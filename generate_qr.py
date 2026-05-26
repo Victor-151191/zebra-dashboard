@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 
-# 📁 Rutas y parámetros base
+#Rutas y parámetros base
 db_path = "Inventario de impresora zebra.db"
 output_folder = "qr_codes"
 docs_folder = "docs"
@@ -15,11 +15,11 @@ docs_folder = "docs"
 base_url = "https://Victor-151191.github.io/zebra-dashboard/docs/"
 font_path = "arial.ttf"  # Fuente para los textos en la imagen
 
-# 📂 Crear carpeta de salida si no existe
+#Crear carpeta de salida si no existe
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
-# 🗃️ Leer datos desde la base
+#Leer datos desde la base
 try:
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -32,7 +32,7 @@ except Exception as e:
 
 print(f"Total de filas leídas: {len(rows)}")
 
-# 🔄 Generar QR por cada registro
+#Generar QR por cada registro
 total_qr = 0
 for row in rows:
     id, serial, host_name = row
@@ -74,14 +74,14 @@ for row in rows:
         #continue
 
     try:
-        # 🧠 Generar código QR compacto
+        #Generar código QR compacto
         qr = qrcode.QRCode(version=1, box_size=4, border=1)
         qr.add_data(url)
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
         qr_img = qr_img.resize((150, 150))  # Tamaño reducido para etiquetas pequeñas
 
-        # 🖼️ Crear imagen base del tamaño físico de la etiqueta
+        #Crear imagen base del tamaño físico de la etiqueta
         img = Image.new("RGB", (300, 230), "white")
         img.paste(qr_img, (70, 40))  # Centrado horizontal
 
@@ -95,25 +95,25 @@ for row in rows:
         except:
             font_host = font_ID = font_serial = ImageFont.load_default()
 
-        # 🏷️ Host en esquina superior izquierda
+        #Host en esquina superior izquierda
         draw.text((10, 5), texto_host, font=font_host, fill="black")
 
-        # 🆔 ID en esquina superior derecha
+        #ID en esquina superior derecha
         texto_id = f"ID: {id}"
         ancho_id = draw.textlength(texto_id, font=font_ID)
         draw.text((300 - ancho_id - 10, 5), texto_id, font=font_ID, fill="black")
 
-        # 🔢 Serial centrado debajo del QR
+        #Serial centrado debajo del QR
         serial_text = f"Serial: {serial}"
         serial_width = draw.textlength(serial_text, font=font_serial)
         draw.text(((300 - serial_width) // 2, 200), serial_text, font=font_serial, fill="black")
 
-        # 💾 Guardar imagen final
+        #Guardar imagen final
         img.save(filepath)
         print(f"QR generado y guardado: {filename}")
         total_qr += 1
 
-        # 🔍 Verificar contenido del QR con OpenCV
+        #Verificar contenido del QR con OpenCV
         img_cv = cv2.imread(filepath)
         lector = cv2.QRCodeDetector()
         texto_qr, delimitador, qr_recto = lector.detectAndDecode(img_cv)
@@ -126,7 +126,7 @@ for row in rows:
     except Exception as e:
         print(f"Error al generar QR para ID {id}: {e}")
 
-# 📊 Resumen final
+#Resumen final
 if total_qr == 0:
     print("\n No se generó ningún código QR nuevo. Verifica los datos en la base o las fichas en /docs.")
 else:
