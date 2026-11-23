@@ -1,5 +1,7 @@
 # Crea página HTML para cada impresora Zebra y un Dashboard principal
-import sqlite3, os, sys, shutil
+import os
+import sqlite3
+import sys
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -9,41 +11,49 @@ TABLE_NAME = "inventario_zebra"
 OUTPUT_FOLDER = "docs"
 LOG_FILE = "log.txt"
 
-def log(mensaje):
+
+def log(mensaje: str) -> None:
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
     mensaje_final = f"[{fecha}] {mensaje}"
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(mensaje_final + "\n")
     print(mensaje_final)
 
-def validar_base():
+
+def validar_base() -> None:
     if not os.path.exists(DB_PATH):
         log(f"Base de datos no encontrada: {DB_PATH}")
         sys.exit(1)
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-    tablas = [t[0] for t in cursor.fetchall()]
-    conn.close()
+
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        tablas = [t[0] for t in cursor.fetchall()]
+
     if TABLE_NAME not in tablas:
         log(f"Tabla '{TABLE_NAME}' no encontrada en la base.")
         sys.exit(1)
 
-def generar_dashboard_index(filas, columnas):
+
+def generar_dashboard_index(filas: list, columnas: list[str]) -> None:
     log("Generando Dashboard Protegido (index.html)...")
-    
+
     load_dotenv(override=True)
-    DASH_PASS = os.getenv("DASHBOARD_PASSWORD", "admin123") 
+    dash_pass = os.getenv("DASHBOARD_PASSWORD", "admin123")
 
     total = len(filas)
     idx_status = columnas.index("Status") if "Status" in columnas else -1
-    activas = sum(1 for f in filas if str(f[idx_status]).upper() == "ACTIVA") if idx_status != -1 else total
+    activas = (
+        sum(1 for f in filas if str(f[idx_status] or "").strip().upper() == "ACTIVA")
+        if idx_status != -1
+        else total
+    )
 
     password_script = f'''
     <script>
     (function() {{
         const clave = prompt("🛡️ ACCESO RESTRINGIDO\\nIngrese clave de Administrador:");
-        if (!clave || clave.trim() !== "{DASH_PASS}") {{
+        if (!clave || clave.trim() !== "{dash_pass}") {{
             document.documentElement.innerHTML = `
             <body style="background:#121212; color:white; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
                 <div style="background:#1e1e26; padding:40px; border-radius:15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
@@ -56,7 +66,6 @@ def generar_dashboard_index(filas, columnas):
     }})();
     </script>'''
 
-    # INICIO DEL HTML
     html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -98,59 +107,61 @@ def generar_dashboard_index(filas, columnas):
     idx_con = columnas.index("Conección")
 
     for f in filas:
-        serial_raw = str(f[idx_ser]).strip()
+        serial_raw = str(f[idx_ser] or "").strip()
+        if not serial_raw or serial_raw.upper() == "NULL":
+            continue
+
         serial_url = serial_raw.replace(" ", "_").replace("/", "-")
-        conexion = str(f[idx_con]).upper()
-        estado = str(f[idx_status]).upper() if idx_status != -1 else "N/A"
+        conexion = str(f[idx_con] or "").strip().upper()
+        estado = str(f[idx_status] or "N/A").strip().upper() if idx_status != -1 else "N/A"
 
         icon_conn = '<i class="fas fa-network-wired"></i> RED'
-        if "WIFI" in conexion: icon_conn = '<i class="fas fa-wifi"></i> WIFI'
-        elif "USB" in conexion: icon_conn = '<i class="fas fa-microchip"></i> USB'
+        if "WIFI" in conexion:
+            icon_conn = '<i class="fas fa-wifi"></i> WIFI'
+        elif "USB" in conexion:
+            icon_conn = '<i class="fas fa-microchip"></i> USB'
 
         status_class = "status-activa"
-        if "REPARACION" in estado: status_class = "status-reparacion"
-        elif "INACTIVA" in estado: status_class = "status-inactiva"
+        if "REPARACION" in estado:
+            status_class = "status-reparacion"
+        elif "INACTIVA" in estado or estado in ("NONE", "NULL", "N/A", ""):
+            status_class = "status-inactiva"
 
         html_content += f"""
                     <tr onclick="window.location='{serial_url}.html';" style="cursor:pointer;">
                         <td class="text-muted">#{f[idx_id]}</td>
-                        <td><strong>{f[idx_mod]}</strong></td>
+                        <td><strong>{f[idx_mod] or ''}</strong></td>
                         <td class="serial-text">{serial_raw}</td>
-                        <td>{f[idx_ubi]}</td>
+                        <td>{f[idx_ubi] or ''}</td>
                         <td>{icon_conn}</td>
                         <td><span class="status-badge {status_class}">{estado}</span></td>
                     </tr>"""
 
-    # CIERRE DE TABLA Y SCRIPT DE DESCARGA (Todo en el Dashboard)
     html_content += """
                 </tbody>
             </table>
         </div>
     </div>
 
-   <script>
+    <script>
     function descargarCSV() {
         try {
             const tabla = document.querySelector(".zebra-table");
-            let csv = [];
+            const csv = [];
             const filas = tabla.querySelectorAll("tr");
-            
+
             filas.forEach(fila => {
                 const celdas = fila.querySelectorAll("th, td");
                 const datosFila = Array.from(celdas).map(celda => {
-                    // Limpiamos espacios y comillas
-                    let texto = celda.innerText.replace(/"/g, '""').trim();
+                    const texto = celda.innerText.replace(/"/g, '""').trim();
                     return `"${texto}"`;
                 });
-                // USAMOS PUNTO Y COMA (;) para que Excel en español lo separe bien
-                csv.push(datosFila.join(";")); 
+                csv.push(datosFila.join(";"));
             });
-            
+
             const contenidoCSV = csv.join("\\n");
-            
-            // EL TRUCO: \ufeff es el "BOM" para que Excel vea bien los acentos
             const blob = new Blob(["\\ufeff" + contenidoCSV], { type: 'text/csv;charset=utf-8;' });
-            
+
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -158,6 +169,7 @@ def generar_dashboard_index(filas, columnas):
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         } catch (err) {
             alert("Error al generar el archivo");
         }
@@ -166,30 +178,31 @@ def generar_dashboard_index(filas, columnas):
 </body>
 </html>"""
 
+    os.makedirs(OUTPUT_FOLDER, exist_ok=True)
     with open(os.path.join(OUTPUT_FOLDER, "index.html"), "w", encoding="utf-8") as f:
         f.write(html_content)
 
-def generar_fichas_html():
-    load_dotenv(override=True)
-    PASSWORD = os.getenv("QR_PASSWORD", "QR_PASSWORD")
-    PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
 
-    if not os.path.exists(OUTPUT_FOLDER): os.makedirs(OUTPUT_FOLDER)
+def generar_fichas_html() -> None:
+    load_dotenv(override=True)
+    password = os.getenv("QR_PASSWORD", "QR_PASSWORD")
+    proteccion = os.getenv("PROTECCION_FICHA", "ON").strip().upper()
+
+    os.makedirs(OUTPUT_FOLDER, exist_ok=True)
     for archivo in os.listdir(OUTPUT_FOLDER):
         if archivo.endswith(".html") and archivo != "index.html":
             os.remove(os.path.join(OUTPUT_FOLDER, archivo))
 
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM {TABLE_NAME}")
-    rows = cursor.fetchall()
-    columns = [desc[0] for desc in cursor.description]
-    conn.close()
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM {TABLE_NAME} ORDER BY ID ASC")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
 
     password_block = f'''<script>
     window.addEventListener("DOMContentLoaded", function() {{
         const clave = prompt("Contraseña de Ficha:");
-        if (!clave || clave.trim() !== "{PASSWORD}") {{
+        if (!clave || clave.trim() !== "{password}") {{
             document.body.innerHTML = "<h2>Acceso denegado</h2>";
         }}
     }});
@@ -200,6 +213,7 @@ def generar_fichas_html():
 <head>
     <meta charset="UTF-8">
     <title>Ficha - {serial}</title>
+    {script_seguridad}
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -213,15 +227,25 @@ def generar_fichas_html():
 </html>"""
 
     total_fichas = 0
+    fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+
     for row in rows:
         data = dict(zip(columns, row))
         serial = data.get("Serial Number")
-        if not serial or str(serial).strip().upper() == "NULL": continue
+        if not serial or str(serial).strip().upper() == "NULL":
+            continue
 
-        html_rows = "\n".join([f"<tr><td class='label'>{k}</td><td>{v}</td></tr>" for k, v in data.items()])
-        fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-        
-        cuerpo = (password_block if PROTECCION == "ON" else "") + template.format(serial=serial, rows=html_rows, fecha=fecha_actual)
+        html_rows = "\n".join(
+            f"<tr><td class='label'>{k}</td><td>{v if v is not None else ''}</td></tr>"
+            for k, v in data.items()
+        )
+
+        cuerpo = template.format(
+            serial=serial,
+            script_seguridad=(password_block if proteccion == "ON" else ""),
+            rows=html_rows,
+            fecha=fecha_actual,
+        )
 
         nombre_archivo = str(serial).strip().replace(" ", "_").replace("/", "-")
         with open(os.path.join(OUTPUT_FOLDER, f"{nombre_archivo}.html"), "w", encoding="utf-8") as f:
@@ -230,6 +254,7 @@ def generar_fichas_html():
 
     generar_dashboard_index(rows, columns)
     log(f"Fichas: {total_fichas} + Dashboard OK.")
+
 
 if __name__ == "__main__":
     validar_base()

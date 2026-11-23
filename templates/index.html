@@ -8,6 +8,13 @@
 </head>
 <body>
     <h2>🔍 Buscar impresora por serial</h2>
+
+    {% if mensaje %}
+    <div class="card" style="border-left: 4px solid #2ecc71;">
+        <p>✅ {{ mensaje }}</p>
+    </div>
+    {% endif %}
+
     <form method="POST">
         <input type="text" name="serial" placeholder="Ingresa el serial o últimos dígitos" required>
         <button type="submit">Buscar</button>
@@ -17,17 +24,19 @@
     <div class="card">
         <p><strong>ID:</strong> {{ data[0] }}</p>
         <p><strong>Serial:</strong> {{ data[1] }}</p>
-        <p><strong>Host:</strong> {{ data[2] }}</p>
-        
+        <p><strong>Host:</strong> {{ data[2] or "Sin Host" }}</p>
+
         {% set fecha = data[3] %}
         <p><strong>Fecha mantenimiento actual:</strong>
-            {% if fecha %}
+            {% if fecha and '-' in fecha %}
                 {{ fecha.split('-')[2] }}/{{ fecha.split('-')[1] }}/{{ fecha.split('-')[0] }}
+            {% elif fecha %}
+                {{ fecha }}
             {% else %}
                 No registrada
             {% endif %}
         </p>
-        <!--<p><strong>Fecha mantenimiento actual:</strong> {{ data[3] or "No registrada" }}</p>-->
+
         <form method="POST">
             <input type="hidden" name="serial" value="{{ data[1] }}">
             <input type="date" name="new_date" required>

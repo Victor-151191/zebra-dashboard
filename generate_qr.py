@@ -1,44 +1,52 @@
-import sqlite3, qrcode, os
-from PIL import Image, ImageDraw, ImageFont
+import os
+import sqlite3
+import sys
 import cv2
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 
-# 🔧 Cargar configuración desde archivo .env
+# Cargar configuración desde archivo .env
 load_dotenv(override=True)
-PROTECCION = os.getenv("PROTECCION_FICHA", "ON")
+PROTECCION = os.getenv("PROTECCION_FICHA", "ON").strip().upper()
 
-#Rutas y parámetros base
-db_path = "Inventario de impresora zebra.db"
-output_folder = "qr_codes"
-docs_folder = "docs"
-#base_url = "https://victor151191.pythonanywhere.com/docs/"
-base_url = "https://Victor-151191.github.io/zebra-dashboard/docs/"
-font_path = "arial.ttf"  # Fuente para los textos en la imagen
+# Rutas y parámetros base
+DB_PATH = "Inventario de impresora zebra.db"
+OUTPUT_FOLDER = "qr_codes"
+DOCS_FOLDER = "docs"
+BASE_URL = "https://victor-151191.github.io/zebra-dashboard/docs/"
+FONT_PATH = "arial.ttf"
 
-#Crear carpeta de salida si no existe
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-#Leer datos desde la base
 try:
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute('SELECT ID, "Serial Number", "Host Name" FROM inventario_zebra ORDER BY ID ASC')
-    rows = cursor.fetchall()
-    conn.close()
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT ID, "Serial Number", "Host Name" '
+            'FROM inventario_zebra ORDER BY ID ASC'
+        )
+        rows = cursor.fetchall()
 except Exception as e:
     print(f"Error al conectar con la base: {e}")
-    exit()
+    sys.exit(1)
 
 print(f"Total de filas leídas: {len(rows)}")
 
-#Generar QR por cada registro
-total_qr = 0
-for row in rows:
-    id, serial, host_name = row
-    print(f"\n Procesando fila → ID: {id}, Serial: {serial}, Host: {host_name}")
+try:
+    font_host = ImageFont.truetype(FONT_PATH, 30)
+    font_id = ImageFont.truetype(FONT_PATH, 30)
+    font_serial = ImageFont.truetype(FONT_PATH, 30)
+except Exception:
+    font_host = font_id = font_serial = ImageFont.load_default()
 
-    # Validar serial y host
+lector_qr = cv2.QRCodeDetector()
+total_qr = 0
+
+for row in rows:
+    id_eq, serial, host_name = row
+    print(f"\nProcesando fila -> ID: {id_eq}, Serial: {serial}, Host: {host_name}")
+
     if not serial or str(serial).strip().upper() == "NULL":
         print("Serial vacío o inválido, QR no generado.")
         continue
@@ -46,89 +54,68 @@ for row in rows:
         print("Host Name vacío o inválido, QR no generado.")
         continue
 
-    # Normalizar datos
-    serial = str(serial).strip().replace(" ", "_").replace("/", "-")
-    host_name = str(host_name).strip()
+    serial_norm = str(serial).strip().replace(" ", "_").replace("/", "-")
+    host_norm = str(host_name).strip()
 
-    # Extraer parte después del primer "0"
-    index_0 = host_name.find("0")
-    parte_variable = host_name[index_0 + 1:] if index_0 != -1 else host_name
+    index_0 = host_norm.find("0")
+    parte_variable = host_norm[index_0 + 1:] if index_0 != -1 else host_norm
     texto_host = f"Host: {parte_variable}"
 
-    url = f"{base_url}{serial}.html"
+    url = f"{BASE_URL}{serial_norm}.html"
     estado = "Protegida" if PROTECCION == "ON" else "Libre"
 
-    # Verificar que la ficha HTML exista
-    ficha_path = os.path.join(docs_folder, f"{serial}.html")
+    ficha_path = os.path.join(DOCS_FOLDER, f"{serial_norm}.html")
     if not os.path.exists(ficha_path):
         print(f"Ficha no encontrada: {ficha_path}")
         continue
 
-    # Evitar duplicados
-    filename = f"{parte_variable}_{serial}_{estado.replace(' ', '_')}.png"
-    filepath = os.path.join(output_folder, filename)
+    filename = f"{parte_variable}_{serial_norm}_{estado}.png"
+    filepath = os.path.join(OUTPUT_FOLDER, filename)
     if os.path.exists(filepath):
         print(f"QR ya existe, se sobrescribe: {filename}")
-    #if os.path.exists(filepath):
-        #print(f"QR ya existe, no se regenera: {filename}")
-        #continue
 
     try:
-        #Generar código QR compacto
         qr = qrcode.QRCode(version=1, box_size=4, border=1)
         qr.add_data(url)
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-        qr_img = qr_img.resize((150, 150))  # Tamaño reducido para etiquetas pequeñas
+        qr_img = qr_img.resize((150, 150))
 
-        #Crear imagen base del tamaño físico de la etiqueta
         img = Image.new("RGB", (300, 230), "white")
-        img.paste(qr_img, (70, 40))  # Centrado horizontal
+        img.paste(qr_img, (75, 40))
 
         draw = ImageDraw.Draw(img)
 
-        # 🖋️ Cargar fuentes con tamaños optimizados
-        try:
-            font_host = ImageFont.truetype(font_path, 30)       # Host Name
-            font_ID = ImageFont.truetype(font_path, 30)     # Estado
-            font_serial = ImageFont.truetype(font_path, 30)     # Serial
-        except:
-            font_host = font_ID = font_serial = ImageFont.load_default()
-
-        #Host en esquina superior izquierda
+        # Host arriba a la izquierda
         draw.text((10, 5), texto_host, font=font_host, fill="black")
 
-        #ID en esquina superior derecha
-        texto_id = f"ID: {id}"
-        ancho_id = draw.textlength(texto_id, font=font_ID)
-        draw.text((300 - ancho_id - 10, 5), texto_id, font=font_ID, fill="black")
+        # ID arriba a la derecha
+        texto_id = f"ID: {id_eq}"
+        ancho_id = draw.textlength(texto_id, font=font_id)
+        draw.text((300 - ancho_id - 10, 5), texto_id, font=font_id, fill="black")
 
-        #Serial centrado debajo del QR
-        serial_text = f"Serial: {serial}"
+        # Serial centrado abajo
+        serial_text = f"Serial: {serial_norm}"
         serial_width = draw.textlength(serial_text, font=font_serial)
-        draw.text(((300 - serial_width) // 2, 200), serial_text, font=font_serial, fill="black")
+        draw.text(((300 - serial_width) // 2, 195), serial_text, font=font_serial, fill="black")
 
-        #Guardar imagen final
         img.save(filepath)
         print(f"QR generado y guardado: {filename}")
         total_qr += 1
 
-        #Verificar contenido del QR con OpenCV
         img_cv = cv2.imread(filepath)
-        lector = cv2.QRCodeDetector()
-        texto_qr, delimitador, qr_recto = lector.detectAndDecode(img_cv)
-
-        if texto_qr:
-            print(f"Contenido real del QR: {texto_qr}")
-        else:
-            print("No se pudo leer el contenido del QR generado.")
+        if img_cv is not None:
+            texto_qr, _, _ = lector_qr.detectAndDecode(img_cv)
+            if texto_qr:
+                print(f"Contenido real del QR: {texto_qr}")
+            else:
+                print("Advertencia: no se pudo verificar el contenido del QR generado.")
 
     except Exception as e:
-        print(f"Error al generar QR para ID {id}: {e}")
+        print(f"Error al generar QR para ID {id_eq}: {e}")
 
-#Resumen final
 if total_qr == 0:
-    print("\n No se generó ningún código QR nuevo. Verifica los datos en la base o las fichas en /docs.")
+    print("\nNo se generó ningún código QR nuevo. Verifica los datos en la base o las fichas en /docs.")
 else:
-    print(f"\n Total de códigos QR generados: {total_qr}")
-    print(f" Carpeta de salida: {output_folder}")
+    print(f"\nTotal de códigos QR generados: {total_qr}")
+    print(f"Carpeta de salida: {OUTPUT_FOLDER}")

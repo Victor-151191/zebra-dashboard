@@ -811,29 +811,25 @@
         </div>
     </div>
 
-   <script>
+    <script>
     function descargarCSV() {
         try {
             const tabla = document.querySelector(".zebra-table");
-            let csv = [];
+            const csv = [];
             const filas = tabla.querySelectorAll("tr");
-            
+
             filas.forEach(fila => {
                 const celdas = fila.querySelectorAll("th, td");
                 const datosFila = Array.from(celdas).map(celda => {
-                    // Limpiamos espacios y comillas
-                    let texto = celda.innerText.replace(/"/g, '""').trim();
+                    const texto = celda.innerText.replace(/"/g, '""').trim();
                     return `"${texto}"`;
                 });
-                // USAMOS PUNTO Y COMA (;) para que Excel en español lo separe bien
-                csv.push(datosFila.join(";")); 
+                csv.push(datosFila.join(";"));
             });
-            
+
             const contenidoCSV = csv.join("\n");
-            
-            // EL TRUCO: ﻿ es el "BOM" para que Excel vea bien los acentos
             const blob = new Blob(["\ufeff" + contenidoCSV], { type: 'text/csv;charset=utf-8;' });
-            
+
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -841,6 +837,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         } catch (err) {
             alert("Error al generar el archivo");
         }
