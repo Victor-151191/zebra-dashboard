@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<script>
+    window.addEventListener("DOMContentLoaded", function() {
+        const clave = prompt("Contraseña de Ficha:");
+        if (!clave || clave.trim() !== "QR_PASSWORD") {
+            document.body.innerHTML = "<h2>Acceso denegado</h2>";
+        }
+    });
+    </script><!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -18,9 +25,9 @@
 <tr><td class='label'>IP</td><td>N/A</td></tr>
 <tr><td class='label'>Ribbon</td><td>None</td></tr>
 <tr><td class='label'>Ribbon Part Number</td><td>None</td></tr>
-<tr><td class='label'>Fecha Mtto</td><td>07/MAYO/2026</td></tr>
-<tr><td class='label'>Status</td><td>ACTIVA</td></tr></table>
-        <p>Actualizado: 2026-06-06 10:22</p>
+<tr><td class='label'>Fecha Mtto</td><td>None</td></tr>
+<tr><td class='label'>Status</td><td>None</td></tr></table>
+        <p>Actualizado: 2026-11-23 11:00</p>
         <button onclick="window.location='index.html'">Volver al Dashboard</button>
     </div>
 </body>

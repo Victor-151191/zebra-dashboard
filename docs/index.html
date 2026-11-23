@@ -7,7 +7,7 @@
     <script>
     (function() {
         const clave = prompt("🛡️ ACCESO RESTRINGIDO\nIngrese clave de Administrador:");
-        if (!clave || clave.trim() !== "Jabil2026") {
+        if (!clave || clave.trim() !== "admin123") {
             document.documentElement.innerHTML = `
             <body style="background:#121212; color:white; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
                 <div style="background:#1e1e26; padding:40px; border-radius:15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
@@ -27,8 +27,8 @@
         <header class="dashboard-header">
             <div class="brand">Zebra Fleet Manager</div>
             <div class="stats">
-                <div class="stat-item"><span>TOTAL</span><br><strong>81</strong></div>
-                <div class="stat-item"><span>ACTIVAS</span><br><strong>61</strong></div>
+                <div class="stat-item"><span>TOTAL</span><br><strong>95</strong></div>
+                <div class="stat-item"><span>ACTIVAS</span><br><strong>0</strong></div>
             </div>
         </header>
 
@@ -52,7 +52,7 @@
                         <td class="serial-text">71J184700458</td>
                         <td>Motor Kits</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N222200092.html';" style="cursor:pointer;">
                         <td class="text-muted">#2</td>
@@ -60,7 +60,7 @@
                         <td class="serial-text">71N222200092</td>
                         <td>Recibos-Estacion-4</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVAS</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N222100816.html';" style="cursor:pointer;">
                         <td class="text-muted">#3</td>
@@ -68,7 +68,7 @@
                         <td class="serial-text">71N222100816</td>
                         <td>Recibos-Estacion- 3 </td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVAS</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J222200415.html';" style="cursor:pointer;">
                         <td class="text-muted">#4</td>
@@ -76,7 +76,7 @@
                         <td class="serial-text">71J222200415</td>
                         <td>Incoming LAB</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">NO RECURRENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J203800328.html';" style="cursor:pointer;">
                         <td class="text-muted">#5</td>
@@ -84,7 +84,7 @@
                         <td class="serial-text">71J203800328</td>
                         <td>Incoming LAB</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">NO RECURRENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J195100147.html';" style="cursor:pointer;">
                         <td class="text-muted">#6</td>
@@ -92,7 +92,7 @@
                         <td class="serial-text">71J195100147</td>
                         <td>Recibos-Estacion-2</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVAS</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J213000208.html';" style="cursor:pointer;">
                         <td class="text-muted">#7</td>
@@ -100,7 +100,7 @@
                         <td class="serial-text">71J213000208</td>
                         <td>Recibos-Estacion Movil-1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVAS</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J192000042.html';" style="cursor:pointer;">
                         <td class="text-muted">#8</td>
@@ -108,7 +108,7 @@
                         <td class="serial-text">71J192000042</td>
                         <td>Embarques-Estacion-3</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7J221103589.html';" style="cursor:pointer;">
                         <td class="text-muted">#9</td>
@@ -116,7 +116,7 @@
                         <td class="serial-text">D7J221103589</td>
                         <td>D-TRASH 3</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7J250321039.html';" style="cursor:pointer;">
                         <td class="text-muted">#10</td>
@@ -124,7 +124,7 @@
                         <td class="serial-text">D7J250321039</td>
                         <td>D-TRASH Carrier 6</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J192704945.html';" style="cursor:pointer;">
                         <td class="text-muted">#11</td>
@@ -132,7 +132,7 @@
                         <td class="serial-text">D1J192704945</td>
                         <td>D-TRASH VOLTURE 3</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J192704958.html';" style="cursor:pointer;">
                         <td class="text-muted">#12</td>
@@ -140,7 +140,7 @@
                         <td class="serial-text">D1J192704958</td>
                         <td>D-TRASH Carrier 4</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N222100931.html';" style="cursor:pointer;">
                         <td class="text-muted">#13</td>
@@ -148,7 +148,7 @@
                         <td class="serial-text">71N222100931</td>
                         <td>D-TRASH IMPRESORA GRN</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N250850980.html';" style="cursor:pointer;">
                         <td class="text-muted">#14</td>
@@ -156,7 +156,7 @@
                         <td class="serial-text">D7N250850980</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J214310098.html';" style="cursor:pointer;">
                         <td class="text-muted">#15</td>
@@ -164,7 +164,7 @@
                         <td class="serial-text">D1J214310098</td>
                         <td>AXIS D-TRASH 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N250850949.html';" style="cursor:pointer;">
                         <td class="text-muted">#16</td>
@@ -172,7 +172,7 @@
                         <td class="serial-text">D7N250850949</td>
                         <td>Motor Kits</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99N251701263.html';" style="cursor:pointer;">
                         <td class="text-muted">#17</td>
@@ -180,7 +180,7 @@
                         <td class="serial-text">99N251701263</td>
                         <td>LINEA 2</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600153.html';" style="cursor:pointer;">
                         <td class="text-muted">#18</td>
@@ -188,7 +188,7 @@
                         <td class="serial-text">T3J250600153</td>
                         <td>C8</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600158.html';" style="cursor:pointer;">
                         <td class="text-muted">#19</td>
@@ -196,7 +196,7 @@
                         <td class="serial-text">T3J250600158</td>
                         <td>C8</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600137.html';" style="cursor:pointer;">
                         <td class="text-muted">#21</td>
@@ -204,7 +204,7 @@
                         <td class="serial-text">T3J250600137</td>
                         <td>C9-EMPAQUE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA TEMAS DE CALIDAD</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600132.html';" style="cursor:pointer;">
                         <td class="text-muted">#22</td>
@@ -212,7 +212,7 @@
                         <td class="serial-text">T3J250600132</td>
                         <td>C9</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250203801.html';" style="cursor:pointer;">
                         <td class="text-muted">#23</td>
@@ -220,7 +220,7 @@
                         <td class="serial-text">T3J250203801</td>
                         <td>C2-B OBA</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600149.html';" style="cursor:pointer;">
                         <td class="text-muted">#24</td>
@@ -228,7 +228,7 @@
                         <td class="serial-text">T3J250600149</td>
                         <td>C2-A EMPAQUE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='27221645095.html';" style="cursor:pointer;">
                         <td class="text-muted">#25</td>
@@ -236,7 +236,7 @@
                         <td class="serial-text">27221645095</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='8621745082.html';" style="cursor:pointer;">
                         <td class="text-muted">#26</td>
@@ -244,7 +244,7 @@
                         <td class="serial-text">8621745082</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='8621745012.html';" style="cursor:pointer;">
                         <td class="text-muted">#27</td>
@@ -252,7 +252,7 @@
                         <td class="serial-text">8621745012</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='8621745032.html';" style="cursor:pointer;">
                         <td class="text-muted">#28</td>
@@ -260,7 +260,7 @@
                         <td class="serial-text">8621745032</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='14821845016.html';" style="cursor:pointer;">
                         <td class="text-muted">#29</td>
@@ -268,7 +268,7 @@
                         <td class="serial-text">14821845016</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='8621745083.html';" style="cursor:pointer;">
                         <td class="text-muted">#30</td>
@@ -276,7 +276,7 @@
                         <td class="serial-text">8621745083</td>
                         <td>C2-FCT PRUEBAS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3N252400314.html';" style="cursor:pointer;">
                         <td class="text-muted">#31</td>
@@ -284,7 +284,7 @@
                         <td class="serial-text">T3N252400314</td>
                         <td>C2-A ASSY1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3N252400310.html';" style="cursor:pointer;">
                         <td class="text-muted">#32</td>
@@ -292,7 +292,7 @@
                         <td class="serial-text">T3N252400310</td>
                         <td>C2-B PROGRAMACION</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J190104621.html';" style="cursor:pointer;">
                         <td class="text-muted">#33</td>
@@ -300,7 +300,7 @@
                         <td class="serial-text">D1J190104621</td>
                         <td>D-TRASH VOLTURE 1</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3N250900123.html';" style="cursor:pointer;">
                         <td class="text-muted">#34</td>
@@ -308,7 +308,7 @@
                         <td class="serial-text">T3N250900123</td>
                         <td>C2-C SUB ASSY1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J242306718.html';" style="cursor:pointer;">
                         <td class="text-muted">#35</td>
@@ -316,7 +316,7 @@
                         <td class="serial-text">99J242306718</td>
                         <td>EMPAQUE 5 PACKOUT</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N230600480.html';" style="cursor:pointer;">
                         <td class="text-muted">#36</td>
@@ -324,7 +324,7 @@
                         <td class="serial-text">71N230600480</td>
                         <td>EMPAQUE 4</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J215300802.html';" style="cursor:pointer;">
                         <td class="text-muted">#37</td>
@@ -332,7 +332,7 @@
                         <td class="serial-text">99J215300802</td>
                         <td>EMPAQUE 4</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J2204200335.html';" style="cursor:pointer;">
                         <td class="text-muted">#38</td>
@@ -340,7 +340,7 @@
                         <td class="serial-text">71J2204200335</td>
                         <td>EMPAQUE 8</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7J250710624.html';" style="cursor:pointer;">
                         <td class="text-muted">#39</td>
@@ -348,7 +348,7 @@
                         <td class="serial-text">D7J250710624</td>
                         <td>EMPAQUE 8</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J242306742.html';" style="cursor:pointer;">
                         <td class="text-muted">#41</td>
@@ -356,7 +356,7 @@
                         <td class="serial-text">99J242306742</td>
                         <td>EMPAQUE 3 Hand Assy</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA MOMENTANEAMENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J242306733.html';" style="cursor:pointer;">
                         <td class="text-muted">#42</td>
@@ -364,7 +364,7 @@
                         <td class="serial-text">99J242306733</td>
                         <td>EMPAQUE 6</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='76N232000100.html';" style="cursor:pointer;">
                         <td class="text-muted">#44</td>
@@ -372,7 +372,7 @@
                         <td class="serial-text">76N232000100</td>
                         <td>LINEA 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J242306746.html';" style="cursor:pointer;">
                         <td class="text-muted">#45</td>
@@ -380,7 +380,7 @@
                         <td class="serial-text">99J242306746</td>
                         <td>EMPAQUE 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200814.html';" style="cursor:pointer;">
                         <td class="text-muted">#46</td>
@@ -388,7 +388,7 @@
                         <td class="serial-text">99J225200814</td>
                         <td>EMPAQUE 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200828.html';" style="cursor:pointer;">
                         <td class="text-muted">#47</td>
@@ -396,7 +396,7 @@
                         <td class="serial-text">99J225200828</td>
                         <td>EMPAQUE 7</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J217300060.html';" style="cursor:pointer;">
                         <td class="text-muted">#48</td>
@@ -404,7 +404,7 @@
                         <td class="serial-text">71J217300060</td>
                         <td>EMPAQUE 7 </td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J243902778.html';" style="cursor:pointer;">
                         <td class="text-muted">#49</td>
@@ -412,7 +412,7 @@
                         <td class="serial-text">99J243902778</td>
                         <td>LINEA 6</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J184000413.html';" style="cursor:pointer;">
                         <td class="text-muted">#50</td>
@@ -420,7 +420,7 @@
                         <td class="serial-text">71J184000413</td>
                         <td>EMPAQUE 6</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA MOMENTANEAMENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J185000797.html';" style="cursor:pointer;">
                         <td class="text-muted">#51</td>
@@ -428,7 +428,7 @@
                         <td class="serial-text">71J185000797</td>
                         <td>AXIS SMT 7</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">NO RECURRENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200827.html';" style="cursor:pointer;">
                         <td class="text-muted">#52</td>
@@ -436,7 +436,7 @@
                         <td class="serial-text">99J225200827</td>
                         <td>AREA DE LASER L6</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N251951102.html';" style="cursor:pointer;">
                         <td class="text-muted">#53</td>
@@ -444,7 +444,7 @@
                         <td class="serial-text">D7N251951102</td>
                         <td>OLFS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J192901471.html';" style="cursor:pointer;">
                         <td class="text-muted">#54</td>
@@ -452,7 +452,7 @@
                         <td class="serial-text">D1J192901471</td>
                         <td>OLFS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71J202000208.html';" style="cursor:pointer;">
                         <td class="text-muted">#55</td>
@@ -460,7 +460,7 @@
                         <td class="serial-text">71J202000208</td>
                         <td>OLFS</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J214310108.html';" style="cursor:pointer;">
                         <td class="text-muted">#56</td>
@@ -468,7 +468,7 @@
                         <td class="serial-text">D1J214310108</td>
                         <td>OLFS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200833.html';" style="cursor:pointer;">
                         <td class="text-muted">#57</td>
@@ -476,7 +476,7 @@
                         <td class="serial-text">99J225200833</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200832.html';" style="cursor:pointer;">
                         <td class="text-muted">#58</td>
@@ -484,7 +484,7 @@
                         <td class="serial-text">99J225200832</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N222100780.html';" style="cursor:pointer;">
                         <td class="text-muted">#59</td>
@@ -492,7 +492,7 @@
                         <td class="serial-text">71N222100780</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J230210407.html';" style="cursor:pointer;">
                         <td class="text-muted">#60</td>
@@ -500,7 +500,7 @@
                         <td class="serial-text">99J230210407</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J230300150.html';" style="cursor:pointer;">
                         <td class="text-muted">#61</td>
@@ -508,7 +508,7 @@
                         <td class="serial-text">99J230300150</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200811.html';" style="cursor:pointer;">
                         <td class="text-muted">#62</td>
@@ -516,7 +516,7 @@
                         <td class="serial-text">99J225200811</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J215300799.html';" style="cursor:pointer;">
                         <td class="text-muted">#63</td>
@@ -524,7 +524,7 @@
                         <td class="serial-text">99J215300799</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J225200807.html';" style="cursor:pointer;">
                         <td class="text-muted">#64</td>
@@ -532,7 +532,7 @@
                         <td class="serial-text">99J225200807</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N225053419.html';" style="cursor:pointer;">
                         <td class="text-muted">#65</td>
@@ -540,7 +540,7 @@
                         <td class="serial-text">D7N225053419</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='99J242306726.html';" style="cursor:pointer;">
                         <td class="text-muted">#66</td>
@@ -548,7 +548,7 @@
                         <td class="serial-text">99J242306726</td>
                         <td>VOLTURE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA </span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N233951483.html';" style="cursor:pointer;">
                         <td class="text-muted">#67</td>
@@ -556,7 +556,7 @@
                         <td class="serial-text">D7N233951483</td>
                         <td>VOLTURE-ASSY 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='71N222100778.html';" style="cursor:pointer;">
                         <td class="text-muted">#68</td>
@@ -564,7 +564,7 @@
                         <td class="serial-text">71N222100778</td>
                         <td>VOLTURE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA </span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7J221103602.html';" style="cursor:pointer;">
                         <td class="text-muted">#69</td>
@@ -572,7 +572,7 @@
                         <td class="serial-text">D7J221103602</td>
                         <td>VOLTURE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA </span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600150.html';" style="cursor:pointer;">
                         <td class="text-muted">#72</td>
@@ -580,7 +580,7 @@
                         <td class="serial-text">T3J250600150</td>
                         <td>C2-A EMPAQUE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3N252400311.html';" style="cursor:pointer;">
                         <td class="text-muted">#73</td>
@@ -588,7 +588,7 @@
                         <td class="serial-text">T3N252400311</td>
                         <td>C2-B EMPAQUE</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600138.html';" style="cursor:pointer;">
                         <td class="text-muted">#74</td>
@@ -596,7 +596,7 @@
                         <td class="serial-text">T3J250600138</td>
                         <td>C4-OBA</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='T3J250600112.html';" style="cursor:pointer;">
                         <td class="text-muted">#75</td>
@@ -604,7 +604,7 @@
                         <td class="serial-text">T3J250600112</td>
                         <td>C4-ASSY 1</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-inactiva">INACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7J250710433.html';" style="cursor:pointer;">
                         <td class="text-muted">#77</td>
@@ -612,7 +612,7 @@
                         <td class="serial-text">D7J250710433</td>
                         <td>HORIZON</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA MOMENTANEAMENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N250850930.html';" style="cursor:pointer;">
                         <td class="text-muted">#78</td>
@@ -620,7 +620,7 @@
                         <td class="serial-text">D7N250850930</td>
                         <td>VOLTURE-PITBULL</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA MOMENTANEAMENTE</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J192901475.html';" style="cursor:pointer;">
                         <td class="text-muted">#79</td>
@@ -628,7 +628,7 @@
                         <td class="serial-text">D1J192901475</td>
                         <td>MRO</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J190104604.html';" style="cursor:pointer;">
                         <td class="text-muted">#80</td>
@@ -636,7 +636,7 @@
                         <td class="serial-text">D1J190104604</td>
                         <td>MRO</td>
                         <td><i class="fas fa-network-wired"></i> RED</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J214310129.html';" style="cursor:pointer;">
                         <td class="text-muted">#81</td>
@@ -644,7 +644,7 @@
                         <td class="serial-text">D1J214310129</td>
                         <td>D-TRASH CARRIER 2</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D7N225150051.html';" style="cursor:pointer;">
                         <td class="text-muted">#82</td>
@@ -652,7 +652,7 @@
                         <td class="serial-text">D7N225150051</td>
                         <td>OLFS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='14J110900773.html';" style="cursor:pointer;">
                         <td class="text-muted">#84</td>
@@ -660,7 +660,7 @@
                         <td class="serial-text">14J110900773</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='14J114000160.html';" style="cursor:pointer;">
                         <td class="text-muted">#85</td>
@@ -668,7 +668,7 @@
                         <td class="serial-text">14J114000160</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='14J132700896.html';" style="cursor:pointer;">
                         <td class="text-muted">#86</td>
@@ -676,7 +676,7 @@
                         <td class="serial-text">14J132700896</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='14J150600158.html';" style="cursor:pointer;">
                         <td class="text-muted">#87</td>
@@ -684,7 +684,7 @@
                         <td class="serial-text">14J150600158</td>
                         <td>AXIS</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                     <tr onclick="window.location='D1J192704964.html';" style="cursor:pointer;">
                         <td class="text-muted">#88</td>
@@ -692,7 +692,119 @@
                         <td class="serial-text">D1J192704964</td>
                         <td>AXIS D-TRASH 1</td>
                         <td><i class="fas fa-microchip"></i> USB</td>
-                        <td><span class="status-badge status-activa">ACTIVA</span></td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='71J200900369.html';" style="cursor:pointer;">
+                        <td class="text-muted">#89</td>
+                        <td><strong>ZT61046-T0E0100Z</strong></td>
+                        <td class="serial-text">71J200900369</td>
+                        <td>AXIS</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='71J185200574.html';" style="cursor:pointer;">
+                        <td class="text-muted">#90</td>
+                        <td><strong>ZT61046-T010100Z</strong></td>
+                        <td class="serial-text">71J185200574</td>
+                        <td>AXIS ALITA</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='D1J190104625.html';" style="cursor:pointer;">
+                        <td class="text-muted">#91</td>
+                        <td><strong>ZD62043-T01F00EZ</strong></td>
+                        <td class="serial-text">D1J190104625</td>
+                        <td>AXIS ALITA</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='D7J250710449.html';" style="cursor:pointer;">
+                        <td class="text-muted">#92</td>
+                        <td><strong>ZD6A143</strong></td>
+                        <td class="serial-text">D7J250710449</td>
+                        <td>AXIS</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99N252500079.html';" style="cursor:pointer;">
+                        <td class="text-muted">#93</td>
+                        <td><strong>ZT41146</strong></td>
+                        <td class="serial-text">99N252500079</td>
+                        <td>AXIS</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99J225200834.html';" style="cursor:pointer;">
+                        <td class="text-muted">#94</td>
+                        <td><strong>ZT41146</strong></td>
+                        <td class="serial-text">99J225200834</td>
+                        <td>AXIS</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='14J113300123.html';" style="cursor:pointer;">
+                        <td class="text-muted">#95</td>
+                        <td><strong>110Xi4</strong></td>
+                        <td class="serial-text">14J113300123</td>
+                        <td>AXIS ALITA</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='14J110900777.html';" style="cursor:pointer;">
+                        <td class="text-muted">#96</td>
+                        <td><strong>110Xi4</strong></td>
+                        <td class="serial-text">14J110900777</td>
+                        <td>AXIS ALITA</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99J225200829.html';" style="cursor:pointer;">
+                        <td class="text-muted">#97</td>
+                        <td><strong>ZT41146</strong></td>
+                        <td class="serial-text">99J225200829</td>
+                        <td>AXIS ALITA</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99N260200060.html';" style="cursor:pointer;">
+                        <td class="text-muted">#98</td>
+                        <td><strong>ZT411</strong></td>
+                        <td class="serial-text">99N260200060</td>
+                        <td>FNI EMPAQUE 4 A</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99N253100313.html';" style="cursor:pointer;">
+                        <td class="text-muted">#99</td>
+                        <td><strong>ZT411</strong></td>
+                        <td class="serial-text">99N253100313</td>
+                        <td>EMPAQUE 2</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='T3J250600116.html';" style="cursor:pointer;">
+                        <td class="text-muted">#100</td>
+                        <td><strong>ZT231422-T01000FZ</strong></td>
+                        <td class="serial-text">T3J250600116</td>
+                        <td>Taller de Industrial</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='76J222201212.html';" style="cursor:pointer;">
+                        <td class="text-muted">#101</td>
+                        <td><strong>ZT62063</strong></td>
+                        <td class="serial-text">76J222201212</td>
+                        <td>EMPAQUE 5</td>
+                        <td><i class="fas fa-network-wired"></i> RED</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
+                    </tr>
+                    <tr onclick="window.location='99N252500082.html';" style="cursor:pointer;">
+                        <td class="text-muted">#102</td>
+                        <td><strong>ZT41146</strong></td>
+                        <td class="serial-text">99N252500082</td>
+                        <td>PREFORMADO</td>
+                        <td><i class="fas fa-microchip"></i> USB</td>
+                        <td><span class="status-badge status-activa">NONE</span></td>
                     </tr>
                 </tbody>
             </table>
