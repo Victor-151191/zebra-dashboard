@@ -1,0 +1,8 @@
+# Ignorar carpeta de impresión de etiquetas
+Imprimir etiquetas/
+
+# correspondientes al proyecto Python / Flask / SQLite
+__pycache__/
+*.py[cod]
+.env
+log.txt
